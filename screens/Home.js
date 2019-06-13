@@ -108,7 +108,7 @@ export default class Home extends React.Component {
                                         ?
                                         countdown
                                             ?
-                                            <React.Fragment>
+                                            <View style={styles.countdownContainer}>
                                                 <Text style={{
                                                     color: '#EE272C',
                                                     width: 60 + '%',
@@ -129,7 +129,7 @@ export default class Home extends React.Component {
                                                     style={styles.countdown}
                                                     timeLabels={{ h: 'HRS', m: 'MIN', s: 'SEC' }}
                                                 />
-                                            </React.Fragment>
+                                            </View>
                                             :
                                             <Text style={{ fontSize: 12, paddingTop: 5, color: '#EE272C' }}>Demand orders for today is closed. New demand will be reviewed for tomorrow</Text>
                                         : null

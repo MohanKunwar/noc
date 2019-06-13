@@ -30,6 +30,7 @@ export default class TextField extends React.Component {
                 <TextInput {...this.props}
                     onBlur={() => this.onBlur()}
                     onFocus={() => this.onFocus()}
+                    placeholderTextColor = '#d4d5d8'
                     style={[{
                         width: 100 + '%',
                         borderBottomWidth: 1,
@@ -58,6 +59,4 @@ export const styles = StyleSheet.create({
     errorInput: {
         borderColor: '#ff0000'
     }
-
-
 });

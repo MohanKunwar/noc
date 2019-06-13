@@ -233,14 +233,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     color: '#000',
   },
   registerlabel: {
-    color: '#b4b4b4',
-    opacity: 0.7,
+    color: '#626368',
     paddingTop: 5,
-    paddingBottom: 5,
+    paddingLeft: 5,
   },
   button: {
     backgroundColor: '#01A7DB',

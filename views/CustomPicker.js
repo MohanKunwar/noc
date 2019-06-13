@@ -22,13 +22,13 @@ export default class Picker extends React.Component {
         return (
             <View style={styles.container}>
                 <View>
-                    {!selectedItem && <Text style={[styles.text, { color: 'grey' }]}>{defaultText}</Text>}
+                    {!selectedItem && <Text style={[styles.text, { color: '#d4d5d8', paddingTop: 5 }]}>{defaultText}</Text>}
                     {selectedItem && (
                         <View style={styles.innerContainer}>
                             <TouchableOpacity style={styles.clearButton} onPress={clear}>
                                 <Text style={{ color: '#fff' }}>Clear</Text>
                             </TouchableOpacity>
-                            <Text style={[styles.text, { color: selectedItem.color }]}>
+                            <Text style={[styles.text, { color: selectedItem.color, marginTop: -10 }]}>
                                 {getLabel(selectedItem)}
                             </Text>
                         </View>
@@ -72,11 +72,11 @@ export default class Picker extends React.Component {
 
 const styles = StyleSheet.create({
     pickerContainer:{
-        height: 50,
+        height: 40,
         width: 100 + '%',
         borderBottomWidth: 1,
         padding: 5,
-        marginBottom: 3    
+        marginBottom: 10    
     },
     optionContainer: {
         paddingBottom: 10,

@@ -312,13 +312,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     color: '#000',
   },
   registerlabel: {
-    color: '#b4b4b4',
-    opacity: 0.7,
+    color: '#626368',
     paddingTop: 5,
+    paddingLeft: 5
   },
   textpicker: {
     height: 40,
@@ -333,7 +334,7 @@ const styles = StyleSheet.create({
   error: {
     color: '#ff0000',
     fontSize: 11,
-    height: 15,
+    height: 10,
     zIndex: 111,
   }
 });

@@ -4,7 +4,7 @@ import R from '../resources'
 import { HeaderBackButton } from 'react-navigation'
 import Validation from '../helpers/Validation'
 import Axios from '../Axios';
-import { ButtonField } from '../views';
+import { ButtonField, Loader } from '../views';
 import SharedPrefs from '../helpers/SharedPrefs';
 import { Fonts } from '../helpers/Fonts';
 export default class Demand extends Component {
@@ -14,7 +14,8 @@ export default class Demand extends Component {
     MS: null,
     request: null,
     loaded: false,
-    edit: false
+    edit: false,
+    loading: true
   }
   static navigationOptions = ({ navigation }) => ({
     headerTitle: <Text style={styles.title}>Make a Request</Text>,
@@ -97,7 +98,11 @@ export default class Demand extends Component {
         }
       }
     })
-
+    if (!dealer) {
+      setTimeout(() => {
+        this.setState({ loading: false})
+      }, 3000)
+    }
   }
   render() {
     const { dealer, loaded } = this.state
@@ -138,7 +143,7 @@ export default class Demand extends Component {
           }
           <ButtonField labelText={'Submit'} onPress={this.submitDemand.bind(this)} />
         </View>
-        : null
+        : <Loader loading={this.state.loading} />
     )
   }
   componentWillUnmount() {

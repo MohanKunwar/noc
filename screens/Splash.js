@@ -7,6 +7,9 @@ import Axios from '../Axios';
   ;
 
 export default class SplashComponent extends Component {
+  static navigationOptions = ({navigation}) => ({
+    headerStyle: { marginTop: -60 }
+  })
   state = {
     loading: undefined
   }
@@ -27,7 +30,7 @@ export default class SplashComponent extends Component {
     return (
       <View style={styles.container} >
         <Image
-          style={{ width: 200, height: 200 }}
+          style={{ width: 150, height: 220, marginTop: 20 }}
           source={R.images.logo}
         />
         <Text>NEPAL OIL CORPORATION LIMITED</Text>
@@ -154,7 +157,7 @@ const styles = StyleSheet.create({
     // height: 100 + '%',
     flex: 1,
     backgroundColor: R.colors.darkblue,
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
     width: 100 + '%',
   },
