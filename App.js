@@ -1,7 +1,10 @@
 import {createDrawerNavigator, createAppContainer} from 'react-navigation';
 
-import Stack from './src/Navigators/StackNavigator'
-import SideDrawer from './src/screens/SideDrawer'
+import Stack from './Navigators/StackNavigator'
+import SideDrawer from './screens/SideDrawer'
+import Pushbots from 'pushbots-react-native'
+
+Pushbots.registerForRemoteNotifications()
 
 const MainNavigator = createDrawerNavigator({
   Stack: Stack,

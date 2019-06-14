@@ -13,9 +13,9 @@ export default class Demand extends Component {
     HSD: null,
     MS: null,
     request: null,
-    loaded: false,
     edit: false,
-    loading: true
+    loading: true,
+    onSubmit: false
   }
   static navigationOptions = ({ navigation }) => ({
     headerTitle: <Text style={styles.title}>Make a Request</Text>,
@@ -24,22 +24,21 @@ export default class Demand extends Component {
   componentWillMount() {
     Axios.authInstance.get(Axios.API.demand.today).then(response => {
       console.log('demand res', response)
+      this.setState({loading: false})
       if (response.data && !response.data.errorMsg && response.data.demand && response.data.demand.length > 0) {
           if (response.data.status === 'Pending') {
             this.setRequest(response.data)
-          } else {
-            this.setState({loaded: true})
           }
       } else if (response.data.errorMsg === 'Invalid Token.') {
         this.props.navigation.replace('Login')
       } else {
-        this.setState({loaded: true, edit: false})
+        this.setState({ edit: false})
       }
     })
   }
 
   setRequest(request) {
-    this.setState({ request: request, loaded: true, edit: true })
+    this.setState({ request: request, edit: true })
     request.demand.map(item => {
       console.log(item)
       this.setState({ [item.fueltype]: parseInt(item.demandunit).toString() })
@@ -48,12 +47,17 @@ export default class Demand extends Component {
 
   async componentDidMount() {
     const dealer = await SharedPrefs.retrieveData('dealer')
+    if (dealer) {
     this.setState({ dealer: dealer })
+    } else {
+      this.props.navigation.navigate('Login')
+    }
 
   }
 
   submitDemand = () => {
     console.log('state demad', this.state)
+
     this.setState({
       onSubmit: true,
       errorpetrol: this.state.MS ? Validation.validates('number', this.state.MS) : null,
@@ -98,16 +102,11 @@ export default class Demand extends Component {
         }
       }
     })
-    if (!dealer) {
-      setTimeout(() => {
-        this.setState({ loading: false})
-      }, 3000)
-    }
   }
   render() {
-    const { dealer, loaded } = this.state
+    const { dealer, loading, onSubmit } = this.state
     return (
-      dealer && loaded ?
+      dealer && !loading && !onSubmit?
         <View style={styles.container}>
           <Text style={styles.instructionTop}>Enter Quantity in Litres</Text>
           <Text style={styles.instructionBottom}>Please make sure that quantity has prevailing zero.</Text>
@@ -143,7 +142,7 @@ export default class Demand extends Component {
           }
           <ButtonField labelText={'Submit'} onPress={this.submitDemand.bind(this)} />
         </View>
-        : <Loader loading={this.state.loading} />
+        : <Loader loading={this.state.loading || this.state.onSubmit} />
     )
   }
   componentWillUnmount() {
