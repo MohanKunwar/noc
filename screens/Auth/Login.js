@@ -13,7 +13,10 @@ import { Fonts } from '../../helpers/Fonts';
 export default class Login extends Component {
 
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: <Text style={styles.title}>SIGN IN</Text>,
+    title: 'SIGN IN',
+    headerStyle: { backgroundColor: '#fff' },
+    headerTitleStyle: {
+        flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', fontFamily: Fonts.font, marginLeft: -30},
     headerLeft: <HeaderBackButton onPress={() => navigation.navigate('Splash')} />
   });
   state = {

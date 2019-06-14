@@ -16,10 +16,7 @@ export default class ContinueRegister extends React.Component {
     headerLeft: <HeaderBackButton onPress={() => navigation.navigate('Register')} />,
     headerStyle: { backgroundColor: '#fff' },
     headerTitleStyle: {
-      color: '#01A7DB',
-      textAlign: 'center',
-      flex: 1,
-    }
+      flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', marginLeft: -30},
   });
   componentWillMount() {
     Axios.instance.get(Axios.API.static.formData).then(res => {

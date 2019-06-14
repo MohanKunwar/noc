@@ -17,13 +17,10 @@ import Axios from '../../../Axios';
 export default class Register extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'Register',
-    headerLeft: <HeaderBackButton onPress={() => navigation.goBack()} />,
+    headerLeft: <HeaderBackButton onPress={() => navigation.navigate('Splash')} />,
     headerStyle: { backgroundColor: '#fff' },
     headerTitleStyle: {
-      color: '#01A7DB',
-      textAlign: 'center',
-      flex: 1,
-    },
+      flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', marginLeft: -30},
   });
 
   constructor(props) {

@@ -4,7 +4,7 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity
+    TouchableOpacity,
 } from 'react-native';
 // eslint-disable-next-line import/no-unresolved
 import { RNCamera } from 'react-native-camera';
@@ -67,9 +67,8 @@ export default class TakePicutre extends React.Component {
                 }}
             >
                 <View>
-                    <Text onPress={this.props.cancel}>X</Text>
+                    <Text onPress={this.props.cancel} style={styles.Canclecamera}>X</Text>
                 </View>
-                <View style={{ bottom: 0 }}>
                     <View
                         style={{
                             height: 56,
@@ -77,7 +76,8 @@ export default class TakePicutre extends React.Component {
                             justifyContent: 'center',
                             alignItems: 'center',
                             flexDirection: 'row',
-                            alignSelf: 'flex-end',
+                            // alignSelf: 'flex-end',
+                          
                         }}
                     >
                         <TouchableOpacity
@@ -87,7 +87,6 @@ export default class TakePicutre extends React.Component {
                             <Text style={styles.flipText}> SNAP </Text>
                         </TouchableOpacity>
                     </View>
-                </View>
             </RNCamera>
         );
     }
@@ -102,13 +101,16 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 10,
         backgroundColor: '#000',
+        position: 'relative',
+        bottom: 0,
+        // height: 50,
+        width: 100 + '%',
     },
     flipButton: {
         flex: 0.3,
         height: 40,
         marginHorizontal: 2,
-        marginBottom: 10,
-        marginTop: 10,
+        // marginTop: 200,
         borderRadius: 8,
         borderColor: 'white',
         borderWidth: 1,
@@ -122,5 +124,14 @@ const styles = StyleSheet.create({
     },
     picButton: {
         backgroundColor: 'darkseagreen',
+    },
+    Canclecamera:{
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: '600',
+        position: 'relative',
+        // top: 100,
+        // marginTop: 30,
+        left: 20,
     }
 });

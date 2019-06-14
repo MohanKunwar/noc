@@ -50,6 +50,7 @@ export default class Home extends React.Component {
     static navigationOptions = ({ navigation }) => ({
         headerStyle: { backgroundColor: '#01A7DB' },
         headerTitle: (<HomeTitle />),
+        headerLayoutPreset: 'center',
         headerLeft: <TouchableOpacity onPress={() => navigation.openDrawer()}>
             <Icon style={styles.icon}
                 name={'menu'}
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
     homeHeader: {
         flexDirection: 'row',
         width: 100 + '%',
-        padding: 10,
+        marginLeft: -20,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#01A7DB'
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     userInfo: {
-        width: 70 + '%'
+        width: 80 + '%'
     },
     countdown: {
         borderWidth: 1,
