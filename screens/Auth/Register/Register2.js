@@ -10,13 +10,15 @@ import { TextField, PasswordField, ButtonField, CustomPicker } from '../../../vi
 import { HeaderBackButton, Header } from 'react-navigation'
 import Validation from '../../../helpers/Validation';
 import Axios from '../../../Axios'
+import { Fonts } from '../../../helpers/Fonts';
+
 export default class ContinueRegister extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'Register',
     headerLeft: <HeaderBackButton onPress={() => navigation.navigate('Register')} />,
     headerStyle: { backgroundColor: '#fff' },
     headerTitleStyle: {
-      flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', marginLeft: -30},
+      flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', marginLeft: -30, fontFamily: Fonts.font},
   });
   componentWillMount() {
     Axios.instance.get(Axios.API.static.formData).then(res => {
@@ -53,8 +55,8 @@ export default class ContinueRegister extends React.Component {
     this.setState({
       onSubmit: true,
       errorVat: Validation.validates('required', this.state.panvat),
-      errorDealerType: !this.state.dealertype ? 'Dealer Type is empty' : null,
-      errorDepo: !this.state.registereddepo ? 'Registered Depo is empty' : null,
+      errorDealerType: !this.state.dealertype ? <Text style={styles.error}>Dealer Type is empty</Text> : null,
+      errorDepo: !this.state.registereddepo ? <Text style={styles.error}>Registered Depo is empty</Text> : null,
       errorMobile: Validation.validates('mobile', this.state.mobileno),
       errorLandline: Validation.validates('number', this.state.landlineno),
       errorPassword: Validation.validates('password', this.state.password),
@@ -116,10 +118,9 @@ export default class ContinueRegister extends React.Component {
     const options = ['One', 'Two', 'Three', 'Four', 'Five']
     return (
       <KeyboardAvoidingView
-        keyboardVerticalOffset={Header.HEIGHT + 20}
-        style={styles.container}
-      >
+        keyboardVerticalOffset={Header.HEIGHT + 20}>
         <ScrollView>
+          <View style={styles.container}>
           <Text style={styles.registerlabel}>VAT No</Text>
           <TextField
             placeholder="enter vat no."
@@ -219,7 +220,7 @@ export default class ContinueRegister extends React.Component {
           />
           <Text>{this.state.errorMatch ? this.state.errorMatch : null}</Text>
           <ButtonField labelText={'Register'} onPress={this.registerClicked.bind(this)} />
-
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     );
@@ -238,9 +239,17 @@ const styles = StyleSheet.create({
     color: '#626368',
     paddingTop: 5,
     paddingLeft: 5,
+    fontFamily: Fonts.font
   },
   button: {
     backgroundColor: '#01A7DB',
     color: '#fff',
   },
+  error: {
+    color: '#ff0000',
+    fontSize: 11,
+    height: 10,
+    zIndex: 111,
+    fontFamily: Fonts.font
+  }
 });

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import R from '../resources'
 import Icon from 'react-native-vector-icons/Entypo'
 import SharedPrefs from '../helpers/SharedPrefs';
@@ -42,58 +42,57 @@ export default class SideDrawer extends Component {
         </View>
 
         <View style={styles.topLinks}>
-          <View style={styles.link}>
+          <TouchableOpacity style={styles.link} onPress={() => this.props.navigation.navigate('Demand')}>
             <Icon style={styles.icon}
               name={'line-graph'}
               size={20}
               color={'#01A7DB'}
             />
-
-            <Text style={styles.linkText} onPress={() => this.props.navigation.navigate('Demand')}>Make Demand</Text>
-          </View>
-          <View style={styles.link}>
+            <Text style={styles.linkText}>Make Demand</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.link} onPress={() => this.props.navigation.navigate('Status')}>
             <Icon style={styles.icon}
               name={'gauge'}
               size={20}
               color={'#01A7DB'}
             />
-            <Text style={styles.linkText} onPress={() => this.props.navigation.navigate('Status')}>Status</Text>
-          </View>
-          <View style={styles.link}>
+            <Text style={styles.linkText}>Status</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.link} onPress={() => this.props.navigation.navigate('History')}>
             <Icon style={styles.icon}
               name={'back-in-time'}
               size={20}
               color={'#01A7DB'}
             />
-            <Text style={styles.linkText} onPress={() => this.props.navigation.navigate('History')}>History</Text>
-          </View>
-          <View style={styles.link}>
+            <Text style={styles.linkText}>History</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.link} onPress={() => this.props.navigation.navigate('Notifications')}>
             <Icon style={styles.icon}
               name={'bell'}
               size={20}
               color={'#01A7DB'}
             />
-            <Text style={styles.linkText} onPress={() => this.props.navigation.navigate('Notifications')}>Notifications</Text>
-          </View>
+            <Text style={styles.linkText}>Notifications</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.bottomLinks}>
-          <View style={styles.link}>
+          <TouchableOpacity style={styles.link} onPress={() => this.props.navigation.navigate('Demand')}>
             <Icon style={styles.icon}
               name={'info-with-circle'}
               size={20}
               color={'#01A7DB'}
             />
-            <Text style={styles.linkText} onPress={() => this.props.navigation.navigate('Demand')}>About</Text>
-          </View>
-          <View style={styles.link}>
+            <Text style={styles.linkText}>About</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.link} onPress={this.logout.bind(this)}>
             <Icon style={styles.icon}
               name={'log-out'}
               size={20}
               color={'#01A7DB'}
             />
-            <Text style={styles.linkText} onPress={this.logout.bind(this)}>Logout</Text>
-          </View>
+            <Text style={styles.linkText}>Logout</Text>
+          </TouchableOpacity>
         </View>
       </View>
     )

@@ -143,16 +143,15 @@ const styles = StyleSheet.create({
         width: 35 + '%'
     },
     label: {
-        opacity: 0.7,
+        opacity: 0.9,
         fontSize: 14,
-        fontWeight: '500',
         fontFamily: Fonts.font
     },
     quantity: {
         fontSize: 18,
-        fontWeight: '700',
+        fontWeight: '500',
         color: '#000',
-        fontFamily: Fonts.font
+        fontFamily: Fonts.fontDigit
     },
     statusContainer: {
         width: 65 + '%',
@@ -167,10 +166,9 @@ const styles = StyleSheet.create({
     date: {
         width: 100 + '%',
         fontSize: 18,
-        fontWeight: '400',
         color: '#000',
         paddingTop: 5,
-        fontFamily: Fonts.font
+        fontFamily: Fonts.fontDigit
     },
     pending: {
         borderWidth: 1,
@@ -194,7 +192,6 @@ const styles = StyleSheet.create({
     },
     notice: {
         fontSize: 14,
-        fontWeight: '400',
         padding: 10,
         fontFamily: Fonts.fontItalic
     }

@@ -13,6 +13,7 @@ import { TextField, ButtonField, CustomPicker } from '../../../views';
 import { HeaderBackButton, Header } from 'react-navigation';
 import Validation from '../../../helpers/Validation';
 import Axios from '../../../Axios';
+import { Fonts } from '../../../helpers/Fonts';
 
 export default class Register extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -20,7 +21,7 @@ export default class Register extends React.Component {
     headerLeft: <HeaderBackButton onPress={() => navigation.navigate('Splash')} />,
     headerStyle: { backgroundColor: '#fff' },
     headerTitleStyle: {
-      flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', marginLeft: -30},
+      flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', marginLeft: -30, fontFamily: Fonts.font},
   });
 
   constructor(props) {
@@ -178,10 +179,9 @@ export default class Register extends React.Component {
     const server_error = this.props.navigation.getParam('data')
     return (
       <KeyboardAvoidingView
-        keyboardVerticalOffset={Header.HEIGHT + 20}
-        style={styles.container}>
-        < View>
-          <ScrollView>
+        keyboardVerticalOffset={Header.HEIGHT + 20}>
+        <ScrollView>
+          <View style={styles.container}>
             <Text style={{ color: '#ff0000' }}>{server_error}</Text>
             <Text style={styles.registerlabel}>Dealer ID</Text>
             <TextField
@@ -298,8 +298,8 @@ export default class Register extends React.Component {
             }
 
             <ButtonField labelText={'Continue'} onPress={this.continueClicked.bind(this)} />
-          </ScrollView>
         </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     );
   }
@@ -316,7 +316,8 @@ const styles = StyleSheet.create({
   registerlabel: {
     color: '#626368',
     paddingTop: 5,
-    paddingLeft: 5
+    paddingLeft: 5,
+    fontFamily: Fonts.font
   },
   textpicker: {
     height: 40,
@@ -333,6 +334,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     height: 10,
     zIndex: 111,
+    fontFamily: Fonts.font
   }
 });
 

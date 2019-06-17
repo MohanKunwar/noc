@@ -1,123 +1,110 @@
+import React, { Component } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import R from '../resources';
+import SharedPrefs from '../helpers/SharedPrefs'
+import { Fonts } from '../helpers/Fonts';
+  ;
 
-import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity
-} from 'react-native';
-// eslint-disable-next-line import/no-unresolved
-import { RNCamera } from 'react-native-camera';
-
-
-
-export default class CameraScreen extends React.Component {
+export default class Splash extends Component {
+  static navigationOptions = ({navigation}) => ({
+    headerStyle: { marginTop: -60 }
+  })
   state = {
-    flash: 'off',
-    zoom: 0,
-    autoFocus: 'on',
-    autoFocusPoint: {
-      normalized: { x: 0.5, y: 0.5 }
-    },
-    depth: 0,
-    type: 'back',
-    whiteBalance: 'auto',
-    ratio: '16:9',
-    recordOptions: {
-      mute: false,
-      maxDuration: 5,
-      quality: RNCamera.Constants.VideoQuality['288p'],
+    loading: undefined
+  }
+  async componentDidMount() {
+    const dealer = await SharedPrefs.retrieveData('dealer')
+    if (dealer) {
+      setTimeout(() => {
+        this.setState({ loading: true })
+        this.props.navigation.navigate('Home')
+      }, 500)
+    } else {
+      this.setState({ loading: false })
     }
-  };
 
-
-  takePicture = async function() {
-    if (this.camera) {
-      const options = { quality: 1, base64: true }
-      const data = await this.camera.takePictureAsync(options);
-      console.log(data.base64)
-      console.warn('takePicture ', data);
-    }
-  };
-
-  renderCamera() {
-    return (
-      <RNCamera
-        ref={ref => {
-          this.camera = ref;
-        }}
-        style={{
-          flex: 1,
-          justifyContent: 'space-between',
-        }}
-        type={this.state.type}
-        flashMode={this.state.flash}
-        autoFocus={this.state.autoFocus}
-        autoFocusPointOfInterest={this.state.autoFocusPoint.normalized}
-        zoom={this.state.zoom}
-        whiteBalance={this.state.whiteBalance}
-        ratio={this.state.ratio}
-        focusDepth={this.state.depth} 
-        androidCameraPermissionOptions={{
-            title: 'Permission to use camera',
-            message: 'We need your permission to use your camera',
-            buttonPositive: 'Ok',
-            buttonNegative: 'Cancel',
-          }}
-      >
-
-        <View style={{ bottom: 0 }}>
-          <View
-            style={{
-              height: 56,
-              backgroundColor: 'transparent',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'row',
-              alignSelf: 'flex-end',
-            }}
-          >
-            <TouchableOpacity
-              style={[styles.flipButton, styles.picButton, { flex: 0.3, alignSelf: 'center' }]}
-              onPress={this.takePicture.bind(this)}
-            >
-              <Text style={styles.flipText}> SNAP </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </RNCamera>
-    );
   }
 
   render() {
-    return <View style={styles.container}>{this.renderCamera()}</View>;
+    return (
+      <View style={styles.container} >
+        <Image
+          style={{ width: 165, height: 240 }}
+          source={R.images.logo}
+        />
+        <Text style={styles.TitleText}>NEPAL OIL CORPORATION LIMITED</Text>
+        <View style={styles.homeButton}>
+        <TouchableOpacity style={styles.buttonLogin}
+          onPress={() =>
+            this.props.navigation.navigate('Login')
+          }>
+          <Text style={[styles.buttonText, { color: '#fff'}]}>
+            Log In
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonRegister}
+          onPress={() => this.props.navigation.navigate('Register')}
+        >
+          <Text style={[styles.buttonText, { color: '#01A7DB'}]}>
+            Register
+          </Text>
+        </TouchableOpacity>
+        </View>
+      </View>
+
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    height: 100 + '%',
     flex: 1,
-    paddingTop: 10,
-    backgroundColor: '#000',
-  },
-  flipButton: {
-    flex: 0.3,
-    height: 40,
-    marginHorizontal: 2,
-    marginBottom: 10,
-    marginTop: 10,
-    borderRadius: 8,
-    borderColor: 'white',
-    borderWidth: 1,
-    padding: 5,
-    alignItems: 'center',
+    backgroundColor: '#01A7DB',
     justifyContent: 'center',
+    alignItems: 'center',
+    width: 100 + '%',
   },
-  flipText: {
-    color: 'white',
-    fontSize: 15,
+  homeButton:{
+    flexDirection: 'row',
+    top: 80,
+    paddingHorizontal: 20,
+    position: 'relative',
+    bottom: 20
   },
-  picButton: {
-    backgroundColor: 'darkseagreen',
+  buttonLogin: {
+    width: 45 + '%',
+    borderColor: '#fff',
+    borderWidth: 2,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    marginRight: 10
+  },
+  buttonRegister: {
+    width: 45 + '%',
+    borderColor: '#fff',
+    borderWidth: 2,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    backgroundColor: '#fff',
+    marginLeft: 10
+  },
+  TitleText:{
+    color: '#fff',
+    fontSize: 18,
+    paddingVertical: 10,
+    fontWeight: '700',
+    fontFamily: Fonts.font,
+  },
+  buttonText:{
+    fontSize: 16,
+    fontFamily: Fonts.font,
   }
 });
+
+
+

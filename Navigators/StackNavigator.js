@@ -1,6 +1,6 @@
 import { createStackNavigator } from 'react-navigation';
 import Home from '../screens/Home'
-import Splash from '../screens/Splash';
+import Splash from '../screens/Splash2';
 import Demand from '../screens/Demand';
 import Register from '../screens/Auth/Register/Register1';
 import ContinueRegister from '../screens/Auth/Register/Register2'

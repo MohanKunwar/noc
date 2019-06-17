@@ -195,7 +195,8 @@ const styles = StyleSheet.create({
     height: 20,
     color: '#92A0B3',
     marginBottom: 5,
-    fontSize: 15
+    fontSize: 15,
+    fontFamily: Fonts.font
   },
   forgetpwd: {
     color: '#F52456',
@@ -222,6 +223,7 @@ const styles = StyleSheet.create({
     color: '#ff0000',
     fontSize: 11,
     marginBottom: 10,
+    fontFamily: Fonts.font
   },
   errorInput: {
     borderColor: '#ff0000'

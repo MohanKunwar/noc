@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '700',
         color: '#000',
-        fontFamily: Fonts.font
+        fontFamily: Fonts.fontDigit
     },
     statusRow: {
         flexDirection: 'row',
@@ -98,6 +98,6 @@ const styles = StyleSheet.create({
     },
     approvedQuentity: {
         fontWeight: '600',
-        fontFamily: Fonts.font
+        fontFamily: Fonts.fontDigit
     }
 })

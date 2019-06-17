@@ -1,4 +1,5 @@
 export const Fonts = {
-    font: 'RobotoCondensed-Regular',
-    fontItalic: 'RobotoCondensed-Italic'
+    font: 'Avenir-Light',
+    fontItalic: 'RobotoCondensed-Italic',
+    fontDigit: 'BebasNeue-Regular'
 }
