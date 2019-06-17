@@ -6,7 +6,10 @@ import { Fonts } from '../helpers/Fonts';
 
 export default class Notifications extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: <Text style={styles.title}>Notifications</Text>,
+    title: 'Notifications',
+    headerStyle: { backgroundColor: '#fff' },
+    headerTitleStyle: {
+      flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', fontFamily: Fonts.font, marginLeft: -30},
     headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
   })
   componentWillMount() {
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
     color: '#01A7DB',
     fontSize: 19,
     fontWeight: '700',
-    fontFamily: Fonts.font
+    fontFamily: Fonts.font,
   },
   logoContainer:{
     height: 50,

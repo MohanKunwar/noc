@@ -18,7 +18,10 @@ export default class Demand extends Component {
     onSubmit: false
   }
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: <Text style={styles.title}>Make a Request</Text>,
+    headerTitle: 'Make a Request',
+    headerStyle: { backgroundColor: '#fff' },
+    headerTitleStyle: {
+      flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', fontFamily: Fonts.font, marginLeft: -30},
     headerLeft: <HeaderBackButton onPress={() => navigation.replace('Home')} />
   })
   componentWillMount() {

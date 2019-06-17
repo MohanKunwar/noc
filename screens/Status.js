@@ -11,7 +11,10 @@ import { Fonts } from '../helpers/Fonts';
 export default class Status extends Component {
 
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: <Text style={styles.title}>Demand Status</Text>,
+        headerTitle: 'Demand Status',
+        headerStyle: { backgroundColor: '#fff' },
+        headerTitleStyle: {
+            flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', fontFamily: Fonts.font, marginLeft: -30},
         headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
     })
     state = {

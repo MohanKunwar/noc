@@ -13,19 +13,19 @@ const sectionLoader = props => {
   } = props;
 
   return (
+    <View style={styles.modalBackground}>
     <View style={styles.activityIndicatorWrapper}>
       <ActivityIndicator
         animating={loading} />
+    </View>
     </View>
   )
 }
 const styles = StyleSheet.create({
   modalBackground: {
-    flex: 1,
     alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    backgroundColor: '#00000040'
+    justifyContent: 'center',
+    backgroundColor: '#fff'
   },
   activityIndicatorWrapper: {
     backgroundColor: '#FFFFFF',

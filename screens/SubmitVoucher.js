@@ -6,10 +6,14 @@ import { TextField } from '../views'
 import R from '../resources'
 import { RNCamera } from 'react-native-camera'
 import TakePicutre from '../components/TakePicture';
+import { Fonts } from '../helpers/Fonts';
 
 export default class SubmitVoucher extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: 'Submit Voucher',
+        headerStyle: { backgroundColor: '#fff' },
+        headerTitleStyle: {
+            flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', fontFamily: Fonts.font, marginLeft: -30},
         headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
     });
     state = {
@@ -130,7 +134,7 @@ export default class SubmitVoucher extends Component {
                     {
                         this.state.openCamera
                             ?
-                            <TakePicutre  imageFile={this.imageFile} cancel={this.cancel} />
+                            <View style={styles.OpenCamera}><TakePicutre  imageFile={this.imageFile} cancel={this.cancel} /></View>
                             : null
                     }
                     {
@@ -204,6 +208,13 @@ const styles = StyleSheet.create({
       paddingHorizontal: 20,
       alignSelf: 'center',
       margin: 20,
+      zIndex: -1
+    },
+    OpenCamera: {
+        position: 'absolute',
+        top: 200,
+        width: 100 + '%',
+        zIndex: 99
     }
 });
 
