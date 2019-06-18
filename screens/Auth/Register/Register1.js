@@ -152,28 +152,6 @@ export default class Register extends React.Component {
     }
   }
 
-  renderField(settings) {
-    const { selectedItem, defaultText, getLabel, clear } = settings
-    return (
-      <View style={styles.container}>
-        <View>
-          {!selectedItem && <Text style={[styles.text, { color: 'grey' }]}>{defaultText}</Text>}
-          {selectedItem && (
-            <View style={styles.innerContainer}>
-              <TouchableOpacity style={styles.clearButton} onPress={clear}>
-                <Text style={{ color: '#fff' }}>Clear</Text>
-              </TouchableOpacity>
-              <Text style={[styles.text, { color: selectedItem.color }]}>
-                {getLabel(selectedItem)}
-              </Text>
-            </View>
-          )}
-        </View>
-      </View>
-    )
-  }
-
-
   render() {
     const options = ['One', 'Two', 'Three', 'Four', 'Five']
     const server_error = this.props.navigation.getParam('data')
