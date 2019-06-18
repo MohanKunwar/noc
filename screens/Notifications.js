@@ -107,11 +107,13 @@ const styles = StyleSheet.create({
   corporationName:{
     fontSize: 18,
     paddingTop: 5,
+    fontFamily: Fonts.font,
 
   },
   demandDate:{
     fontSize: 12,
     opacity: 0.8,
+    fontFamily: Fonts.fontDigit
   },
   status:{
     flexDirection: 'column',

@@ -75,19 +75,20 @@ export default class Home extends React.Component {
                 <React.Fragment>
                     {/* <ActivityIndicator animating={!dealer || !currReq } /> */}
                     <View style={{ width: 100 + '%', height: 60, backgroundColor: '#01A7DB' }} />
-                    <View style={{ marginRight: 15, marginLeft: 15, flex: 1 }}>
+                    <View style={{ flex: 1 }}>
                         {
                             dealer
                                 ?
                                 <View style={styles.userContainer}>
                                     <View style={styles.userInfo}>
                                         <Text style={{
-                                            fontSize: 22, color: '#01A7DB', fontWeight: '800',
+                                            fontSize: 20, color: '#01A7DB',
                                             fontFamily: Fonts.font
                                         }}>{dealer.dealername}</Text>
                                         <Text style={{
-                                            fontSize: 20, color: '#01A7DB', fontWeight: '500',
-                                            fontFamily: Fonts.font
+                                            fontSize: 15, color: '#01A7DB',
+                                            fontFamily: Fonts.font,
+                                            
                                         }}>
                                             {dealer.vdc_municipality} {dealer.wardno}, {dealer.street}
                                         </Text>
@@ -105,6 +106,7 @@ export default class Home extends React.Component {
                             !this.state.loginRequired
                                 ?
                                 <ScrollView>
+                                    <View style={{paddingHorizontal: 15}}>
                                     {
                                         currReq != undefined
                                             ?
@@ -114,7 +116,7 @@ export default class Home extends React.Component {
                                     {
                                         currReq.status === 'Pending'
                                             ?
-                                            <Text style={styles.notice}>*You will be notified once your request is approved</Text>
+                                            <Text style={{fontFamily: Fonts.font,}}>*You will be notified once your request is approved</Text>
                                             :
                                             countdown != undefined
                                                 ?
@@ -143,16 +145,17 @@ export default class Home extends React.Component {
                                                         />
                                                     </View>
                                                     :
-                                                    <Text style={{ fontSize: 12, paddingTop: 5, color: '#EE272C' }}>Demand orders for today is closed. New demand will be reviewed for tomorrow</Text>
+                                                    <Text style={{ fontSize: 12, paddingTop: 5, color: '#EE272C', fontFamily: Fonts.font, }}>Demand orders for today is closed. New demand will be reviewed for tomorrow</Text>
                                                 : null
                                     }
-                                    <Text style={{ paddingBottom: 5, paddingTop: 10 }}>Demand History</Text>
+                                    <Text style={{ paddingBottom: 5, paddingTop: 10, fontFamily: Fonts.font, }}>Demand History</Text>
                                     {
                                         history
                                             ?
                                             <History history={history} />
                                             : <Text>loading</Text>
                                     }
+                                    </View>
                                 </ScrollView>
                                 : <SectionLoader loading={this.state.loginRequired} />
                         }
@@ -192,13 +195,15 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'rgba(171, 171, 171, 0.3)',
         borderRadius: 5,
-        padding: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 15,
         backgroundColor: '#fff',
         shadowColor: '#969191',
         shadowOffset: { width: 1, height: 10 },
         shadowOpacity: 0.4,
         shadowRadius: 5,
         elevation: 3,
+        marginHorizontal: 15
     },
     userInfo: {
         width: 80 + '%'

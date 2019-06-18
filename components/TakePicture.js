@@ -81,7 +81,7 @@ export default class TakePicutre extends React.Component {
                         }}
                     >
                         <TouchableOpacity
-                            style={[styles.flipButton, styles.picButton, { flex: 0.3, alignSelf: 'center' }]}
+                            style={[styles.flipButton, styles.picButton, { flex: 0, alignSelf: 'center' }]}
                             onPress={this.takePicture.bind(this)}
                         >
                             <Text style={styles.flipText}> SNAP </Text>
@@ -99,15 +99,11 @@ export default class TakePicutre extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 10,
         backgroundColor: '#000',
-        position: 'relative',
-        bottom: 0,
-        // height: 50,
-        width: 100 + '%',
+        flexDirection: 'column',
     },
     flipButton: {
-        flex: 0.3,
+        flex: 0,
         height: 40,
         marginHorizontal: 2,
         // marginTop: 200,
@@ -126,12 +122,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'darkseagreen',
     },
     Canclecamera:{
-        color: '#fff',
+        color: 'red',
         fontSize: 20,
         fontWeight: '600',
         position: 'relative',
-        // top: 100,
-        // marginTop: 30,
+        // // top: 100,
+        // // marginTop: 30,
         left: 20,
     }
 });
