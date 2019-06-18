@@ -7,7 +7,7 @@ import Validation from '../../helpers/Validation';
 import Axios from '../../Axios';
 import SharedPrefs from '../../helpers/SharedPrefs';
 import { Fonts } from '../../helpers/Fonts';
-
+ 
 export default class ConfirmCode extends Component {
     state = {
         code: '',
@@ -26,18 +26,19 @@ export default class ConfirmCode extends Component {
             onSubmit: true,
             codeError: Validation.validates('required', this.state.code)
         }, () => {
-            // api call to verify code here
+            // api call to verify code
             if (!this.state.codeError) {
                 const data = new FormData()
                 data.append('mobileno', this.state.mobileNo)
                 data.append('otp', this.state.code)
                 Axios.instance.post(Axios.API.auth.mobileConfirmation, data).then(response => {
+                    console.log(response)
                     if (response.data.errorMsg) {
                         this.setState({ codeError: 'Invalid Code' })
                     } else if (response.data.status === 200) {
                         if (this.state.origin === 'register') {
                             this.props.navigation.replace('AwaitApproval', {origin: 'register'})
-                        } else if (this.state.origin === 'resetPassword') {
+                        } else if (this.state.origin === 'forgotpassword') {
                             this.props.navigation.replace('ResetPassword', {})
                         } else if (this.state.origin === 'login') {
                             if (response.data.dealer) {

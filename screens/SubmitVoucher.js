@@ -1,27 +1,48 @@
 import React, { Component } from 'react'
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
-import { HeaderBackButton } from 'react-navigation'
+import { KeyboardAvoidingView, ScrollView, View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native'
+import { HeaderBackButton, Header } from 'react-navigation'
 import DatePicker from 'react-native-datepicker'
-import { TextField } from '../views'
+import { TextField, CustomPicker } from '../views'
 import R from '../resources'
-import { RNCamera } from 'react-native-camera'
-import TakePicutre from '../components/TakePicture';
-import { Fonts } from '../helpers/Fonts';
+import TakePicutre from '../components/TakePicture'
+import { Fonts } from '../helpers/Fonts'
+import moment from 'moment'
 
 export default class SubmitVoucher extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: 'Submit Voucher',
         headerStyle: { backgroundColor: '#fff' },
         headerTitleStyle: {
-            flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', fontFamily: Fonts.font, marginLeft: -30},
+            flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', fontFamily: Fonts.font, marginLeft: -30
+        },
         headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
     });
     state = {
-        total: '',
-        voucherNum: '',
+        vouchernum: '',
         amount: '',
-        date: '',
-        bank: ''
+        voucherdate: '',
+        bank: '',
+        voucherimage: '',
+
+        errVouchernum: null,
+        errAmount: null,
+        errVoucherdate: null,
+        errBank: null,
+        errVoucherimage: null,
+
+        bankOptions: [
+            {
+                id: 1,
+                name: 'Bank 1'
+            },
+            {
+                id: 2,
+                name: 'Bank 2'
+            }, {
+                id: 3,
+                name: 'Bank 3'
+            }
+        ]
     }
     componentWillMount() {
         const request = this.props.navigation.getParam('request')
@@ -38,118 +59,188 @@ export default class SubmitVoucher extends Component {
                 }
             })
             this.setState({ totalText: totalText, demand: request.demand })
-
         }
-        console.log(request, 'req')
-        // get demand from 'submit voucher'
-        // get rates for user 
     }
-   
     imageFile = data => {
-        console.log(data.uri)
-        this.setState({openCamera: false, uri: data.uri })
+        console.log(data.base64)
+        this.tempImage = data.base64
+        this.setState({ openCamera: false, uri: data.uri })
     }
     cancel = () => {
-        this.setState({openCamera: false})
+        this.setState({ openCamera: false })
     }
+    onSubmit = () => {
+        const { vouchernum, amount, voucherdate, bank, voucherimage } = this.state
+        this.setState({
+            errVouchernum: vouchernum ? null : 'Required',
+            errAmount: amount ? null : 'Required',
+            errVoucherdate: voucherdate ? null : 'Required',
+            errBank: bank ? null : 'Required',
+            errVoucherimage: voucherimage ? null : true
+        }, () => {
+            if (
+                !this.state.errVouchernum &&
+                !this.state.errAmount &&
+                !this.state.errVoucherdate &&
+                !this.state.errBank &&
+                !this.state.errVoucherimage
+            ) {
+                console.log(this.state)
+            }
+        })
+    }
+
     render() {
         return (
-            <ScrollView style={styles.container}>
-                <View style={styles.ratesContainer}>
-                    {
-                        this.state.demand
-                            ?
-                            this.state.demand.map((demand, index) =>
-                                <View key={index} style={[styles.rateTypes, this.state.demand.length > 1 && index === 0 ? { borderRightWidth: 1, borderColor: '#ababab' } : null]}>
-                                    <Text style={styles.label}>{demand.fueltype} Rate</Text>
-                                    <Text>NPR. {demand.totalrate / demand.approvedunit}/L</Text>
-                                </View>
-                            )
-                            : null
-                    }
-                </View>
-                <Text>You need total of {this.state.totalText} to make this purchase</Text>
-                <View style={styles.formContainer}>
-                    <Text style={styles.label}>Voucher Number</Text>
-                    <TextField
-
-                        keyboardType="number-pad"
-                        value={this.state.voucherNum}
-                        onChangeText={value =>
-                            this.setState({
-                                voucherNum: value.trim(),
-                                errorVoucherNum: this.state.onSubmit ? Validation.validates('required', value.trim()) : null
-                            })
+            <KeyboardAvoidingView
+                keyboardVerticalOffset={Header.HEIGHT + 20}
+                style={styles.container}>
+                <ScrollView>
+                    <View style={styles.ratesContainer}>
+                        {
+                            this.state.demand
+                                ?
+                                this.state.demand.map((demand, index) =>
+                                    <View key={index} style={[styles.rateTypes, this.state.demand.length > 1 && index === 0 ? { borderRightWidth: 1, borderColor: '#ababab' } : null]}>
+                                        <Text style={styles.label}>{demand.fueltype} Rate</Text>
+                                        <Text>NPR. {demand.totalrate / demand.approvedunit}/L</Text>
+                                    </View>
+                                )
+                                : null
                         }
-                        error={this.state.errorVoucherNum} />
-
-                    <Text style={styles.label}>Amount (in NRs.)</Text>
-                    <TextField
-                        value={this.state.amount}
-                        onChangeText={value =>
-                            this.setState({
-                                amount: value.trim(),
-                                errorAmount: this.state.onSubmit ? Validation.validates('required', value.trim()) : null
-                            })
-                        }
-                        error={this.state.errorAmount} />
-                    <Text style={styles.label}>Date</Text>
-                    {/* todo date field  verify validations*/}
-                    <DatePicker
-                        style={{ width: 100 + '%', marginBottom: 15 }}
-                        date={this.state.date}
-                        mode="date"
-                        placeholder="Select Date"
-                        format="dd MMM YYYY"
-                        // minDate="2016-05-01"
-                        maxDate={new Date()}
-                        confirmBtnText="Confirm"
-                        cancelBtnText="Cancel"
-                        customStyles={{
-                            dateIcon: {
-                                position: 'absolute',
-                                left: 0,
-                                top: 3,
-                                marginLeft: 0
-                            },
-                            dateInput: {
-                                borderColor: '#fff',
-                                borderBottomColor: '#ababab',
-                                borderBottomWidth: 1
-                            }
-                            // ... You can check the source to find the other keys.
-                        }}
-                        onDateChange={(date) => { this.setState({ date: date }) }}
-                    />
-                    <Text style={styles.label}>Bank Name</Text>
-                    <TextField
-                        value={this.state.bank}
-                        onChangeText={value =>
-                            this.setState({
-                                bank: value,
-                                // errorEmail: this.state.onSubmit ? Validation.validates('isFromList', value.trim()) : null
-                            })
-                        }
-                        error={this.state.errorBank} />
-                    {
-                        this.state.openCamera
-                            ?
-                            <View style={styles.OpenCamera}><TakePicutre  imageFile={this.imageFile} cancel={this.cancel} /></View>
-                            : null
-                    }
-                    {
-                        this.state.uri
-                        ?
-                        <Image style={styles.image} source={{ uri: this.state.uri }} />
-                        : null
-                    }
-                    <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-                        <TouchableOpacity onPress={() => this.setState({ openCamera: true })} style={styles.capture}>
-                            <Text style={{ fontSize: 14 }}> SCAN </Text>
-                        </TouchableOpacity>
                     </View>
-                </View>
-            </ScrollView>
+                    <Text>You need total of {this.state.totalText} to make this purchase</Text>
+                    <View style={styles.formContainer}>
+                        <Text style={styles.label}>Voucher Number</Text>
+                        <TextField
+                            keyboardType="number-pad"
+                            value={this.state.vouchernum}
+                            onChangeText={value =>
+                                this.setState({
+                                    vouchernum: value.trim(),
+                                    errVouchernum: value ? null : 'Required'
+                                })
+                            }
+                            error={this.state.errVouchernum} />
+
+                        <Text style={styles.label}>Amount (in NRs.)</Text>
+                        <TextField
+                            value={this.state.amount}
+                            keyboardType='number-pad'
+                            onChangeText={value =>
+                                this.setState({
+                                    amount: value.trim(),
+                                    errAmount: value ? null : 'Required'
+                                })
+                            }
+                            error={this.state.errAmount} />
+                        <Text>Today's Date: {moment(new Date()).format('MM/DD/YYYY')}</Text>
+                        <Text style={styles.label}>Voucher Date</Text>
+                        {/* todo date field  verify validations*/}
+                        <DatePicker
+                            style={{ width: 100 + '%', marginBottom: 15 }}
+                            date={this.state.voucherdate}
+                            mode="date"
+                            placeholder="Select Date"
+                            format="MM/DD/YYYY"
+                            maxDate={new Date()}
+                            confirmBtnText="Confirm"
+                            cancelBtnText="Cancel"
+                            customStyles={{
+                                dateIcon: {
+                                    position: 'absolute',
+                                    left: 0,
+                                    top: 3,
+                                    marginLeft: 0
+                                },
+                                dateInput: {
+                                    borderColor: '#fff',
+                                    borderBottomColor: '#ababab',
+                                    borderBottomWidth: 1
+                                }
+                            }}
+                            onDateChange={(date) => { this.setState({ voucherdate: date }) }}
+                        />
+                        {
+                            this.state.errVoucherdate
+                                ? <Text>{this.state.errVoucherdate}</Text>
+                                : null
+                        }
+                        {
+                            this.state.bankOptions
+                                ?
+                                <React.Fragment>
+                                    <Text style={styles.label}>Bank Name</Text>
+                                    <CustomPicker
+                                        placeholder={'Select a Bank'}
+                                        options={this.state.bankOptions}
+                                        getLabel={item => item.name}
+                                        onValueChange={value => this.setState({ bank: value.name })}
+                                    />
+                                    {
+                                        this.state.errBank
+                                            ?
+                                            <Text>{this.state.errorBank}</Text>
+                                            : null
+                                    }
+                                </React.Fragment>
+                                : <Text>Failed to load bank list, please reload</Text>
+                        }
+                        {
+                            this.state.errBank
+                                ? <Text>Please select a bank</Text>
+                                : null
+                        }
+                        {
+                            this.state.openCamera
+                                ?
+                                <View style={styles.OpenCamera}>
+                                    <TakePicutre
+                                        imageFile={this.imageFile}
+                                        cancel={this.cancel} />
+                                </View>
+                                :
+                                this.state.uri
+                                    ?
+                                    <React.Fragment>
+                                        <ImageBackground style={styles.image} source={{ uri: this.state.uri }} />
+
+                                        {
+                                            !this.state.voucherimage
+                                                ?
+                                                <View>
+                                                    <TouchableOpacity onPress={() => this.setState({ voucherimage: this.tempImage, errVoucherimage: null })} >
+                                                        <Text style={{ fontSize: 14 }}> Use this </Text>
+                                                    </TouchableOpacity>
+                                                    <TouchableOpacity onPress={() => this.setState({ openCamera: true })}>
+                                                        <Text style={{ fontSize: 14 }}> Take another </Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                                : <Text>Accepted git over image</Text>
+                                        }
+                                    </React.Fragment>
+                                    :
+                                    <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+                                        <TouchableOpacity onPress={() => this.setState({ openCamera: true, image: null })} style={styles.capture}>
+                                            <Text style={{ fontSize: 14 }}> SCAN </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                        }
+                        {
+                            this.state.errVoucherimage
+                                ?
+                                this.state.uri
+                                    ? <Text>Please accept or Reject the Preview Image</Text>
+                                    : <Text>Please add an Image of Voucher</Text>
+                                : null
+
+                        }
+                    </View>
+                    <TouchableOpacity >
+                        <Text style={{ fontSize: 14 }} onPress={this.onSubmit} style={styles.submit}> Submit </Text>
+                    </TouchableOpacity>
+                </ScrollView>
+            </KeyboardAvoidingView>
         )
     }
     submitVoucher = () => {
@@ -160,9 +251,9 @@ const styles = StyleSheet.create({
 
     container: {
         backgroundColor: '#fff',
-        padding: 15,
-        position: 'absolute',
-        width: 100 + '%',
+        flex: 1,
+        paddingVertical: 10,
+        paddingHorizontal: 20
     },
     ratesContainer: {
         flexDirection: 'row',
@@ -196,70 +287,32 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     preview: {
-      flex: 1,
-      justifyContent: 'flex-end',
-      alignItems: 'center',
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
     },
     capture: {
-      flex: 0,
-      backgroundColor: '#fff',
-      borderRadius: 5,
-      padding: 15,
-      paddingHorizontal: 20,
-      alignSelf: 'center',
-      margin: 20,
-      zIndex: -1
+        flex: 0,
+        backgroundColor: '#fff',
+        borderRadius: 5,
+        padding: 15,
+        paddingHorizontal: 20,
+        alignSelf: 'center',
+        margin: 20,
+        zIndex: -1
     },
     OpenCamera: {
         position: 'absolute',
-        top: 200,
+        top: 0,
         width: 100 + '%',
         zIndex: 99
+    },
+    image: {
+        width: 100 + '%',
+        height: 300,
+        backgroundColor: 'red'
+    },
+    submit: {
+        bottom: 0
     }
 });
-
-const demand = [{
-    'DemandID': '1',
-    'DealerID': '1',
-    'Date': '2019/1/1',
-    'DemandTime': '13:28',
-    'ConsideredDate': '2019/01/02',
-    'Fuel': 'abc',
-    'Type': 'abc',
-    'DemandUnit': '123',
-    'ApprovedUnit': '112',
-    'TotalRate': '234',
-    'Status': 'pending',
-    'AppliedMode': 'xyz',
-    'Remarks': 'abcdefghij',
-},
-{
-    'DemandID': '2',
-    'DealerID': '1',
-    'Date': '2018/1/1',
-    'DemandTime': '14:28',
-    'ConsideredDate': '2018/01/02',
-    'Fuel': 'abc',
-    'Type': 'abc',
-    'DemandUnit': '123',
-    'ApprovedUnit': '112',
-    'TotalRate': '234',
-    'Status': 'rejected',
-    'AppliedMode': 'xyz',
-    'Remarks': 'abcdefghij',
-},
-{
-    'DemandID': '3',
-    'DealerID': '1',
-    'Date': '2017/1/1',
-    'DemandTime': '15:28',
-    'ConsideredDate': '2017/01/02',
-    'Fuel': 'abc',
-    'Type': 'abc',
-    'DemandUnit': '123',
-    'ApprovedUnit': '112',
-    'TotalRate': '234',
-    'Status': 'approved',
-    'AppliedMode': 'xyz',
-    'Remarks': 'abcdefghij',
-}]
