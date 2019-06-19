@@ -43,6 +43,14 @@ export default class Status extends Component {
                                 ?
                                 <React.Fragment>
                                     <ApprovedRequest demand={request.demand} />
+                                    {/* {
+                                        request.vouchers
+                                        ?
+                                        request.vouchers.map((voucher, index) =>
+                                            <VoucherView voucher={voucher} key={index} navigation={this.props.navigation} />
+                                        )
+                                        : null
+                                    } */}
                                     <ButtonField labelText={'Submit Voucher'} onPress={() => this.props.navigation.navigate('SubmitVoucher', {request: request})} />
                                 </React.Fragment>
                                 :

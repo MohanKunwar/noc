@@ -26,7 +26,7 @@ export default class HistoryTabs extends Component {
     }
     getHistory(duration) {
         if (this.state[duration]) {
-            this.setState({ history: this.state[history] })
+            this.setState({ history: this.state[duration] })
         } else {
             this.setState({ loading: true })
             Axios.authInstance.get(Axios.API.demand.report(duration)).then(response => {

@@ -31,6 +31,8 @@ export default class Demand extends Component {
       if (response.data && !response.data.errorMsg && response.data.demand && response.data.demand.length > 0) {
           if (response.data.status === 'Pending') {
             this.setRequest(response.data)
+          } else if (response.data.status === 'Approved') {
+            this.setState({ approvedDemand: true})
           }
       } else if (response.data.errorMsg === 'Invalid Token.') {
         this.props.navigation.replace('Login')
@@ -107,10 +109,20 @@ export default class Demand extends Component {
     })
   }
   render() {
-    const { dealer, loading, onSubmit } = this.state
+    const { dealer, loading, onSubmit, approvedDemand } = this.state
     return (
       dealer && !loading && !onSubmit?
         <View style={styles.container}>
+        {
+          approvedDemand 
+          ? 
+          <React.Fragment>
+          <Text>There is already an active Demand in processing. Please complete the Voucher Submission process to create a new Demand.</Text>
+          <ButtonField labelText={'Demand Status'} onPress={() => this.props.navigation.navigate('Status')} />
+          
+          </React.Fragment>
+          :
+          <React.Fragment>
           <Text style={styles.instructionTop}>Enter Quantity in Litres</Text>
           <Text style={styles.instructionBottom}>Please make sure that quantity has prevailing zero.</Text>
           {
@@ -144,6 +156,8 @@ export default class Demand extends Component {
             )
           }
           <ButtonField labelText={'Submit'} onPress={this.submitDemand.bind(this)} />
+          </React.Fragment>
+        }
         </View>
         : <Loader loading={this.state.loading || this.state.onSubmit} />
     )
