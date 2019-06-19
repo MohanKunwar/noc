@@ -16,14 +16,14 @@ export default class SideDrawer extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.userContainer}>
-          <Text onPress={() => this.props.navigation.closeDrawer()} style={styles.closeButton}>
+          <TouchableOpacity onPress={() => this.props.navigation.closeDrawer()} style={styles.closeButton}>
             <Icon style={styles.icon}
               name={'cross'}
               size={30}
               color={'#fff'}
             />
 
-          </Text>
+          </TouchableOpacity>
           <Image
             style={styles.userImage}
             source={R.images.diesel}
@@ -107,7 +107,8 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 35,
+    marginTop: 35,
+    width: 100 + '%',
     paddingLeft: 20,
   },
   userContainer: {

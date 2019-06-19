@@ -37,7 +37,8 @@ export default class TextField extends React.Component {
                         height: 40,
                         borderColor: this.state.BorderColor,
                         padding: 5,
-                        marginBottom: 3
+                        marginBottom: 3,
+                        color: '#000'
                     }, this.props.error ? styles.errorInput : null]} />
                 <Text style={styles.error}> {this.props.error ? this.props.error : ''}</Text>
             </View>

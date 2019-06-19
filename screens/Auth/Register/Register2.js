@@ -89,7 +89,10 @@ export default class ContinueRegister extends React.Component {
             if (response.errorMsg) {
               const server_error = response.errorMsg
               this.setState({ serverError: true })
+              let serverVat_er = 'The Dealer ID field must contain a unique value.'
+              if(server_error === serverVat_er){
               this.props.navigation.navigate('Register', {data: server_error, prevScreenData: null})
+            }
             } 
              else if (res.data) {
               this.setState({value: null})
