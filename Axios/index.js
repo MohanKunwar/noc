@@ -19,8 +19,8 @@ const API = {
     static: {
         formData: 'dealer/form'
     },
-    vouch: {
-       
+    voucher: {
+       submit: 'voucher/submit',
     },
     address: {
         states: 'address/states',

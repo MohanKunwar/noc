@@ -176,7 +176,6 @@ export default class Register extends React.Component {
 
             <Text style={styles.registerlabel}>Petrol Pump Name</Text>
             <TextField
-              autoFocus={true}
               placeholder="Petrol Pump Name"
               onChangeText={value =>
                 this.setState({
