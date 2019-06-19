@@ -106,7 +106,9 @@ export default class SubmitVoucher extends Component {
                     data.append('bankname', bank)
                     data.append('demandids', commaDelimitedDemands)
                     Axios.authInstance.post(Axios.API.voucher.submit, data).then(response => {
-                        if (response.data && response.data.status === 200) {
+                        if (response.data.errorMsg === 'Invalid Token.') {
+                            this.props.navigation.replace('Login')
+                        } else if (response.data && response.data.status === 200) {
                             this.props.navigation.navigate('VoucherSubmitted')
                         }
                     })
@@ -274,9 +276,6 @@ export default class SubmitVoucher extends Component {
                 </ScrollView>
             </KeyboardAvoidingView>
         )
-    }
-    submitVoucher = () => {
-        this.props.navigation.replace('VoucherSubmitted')
     }
 }
 const styles = StyleSheet.create({

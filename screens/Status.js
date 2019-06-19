@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
 import { HeaderBackButton } from 'react-navigation'
-import { ButtonField } from '../views';
+import { ButtonField, SectionLoader } from '../views';
 import R from '../resources';
 import Axios from '../Axios';
 import Request from '../components/Request'
@@ -14,7 +14,8 @@ export default class Status extends Component {
         headerTitle: 'Demand Status',
         headerStyle: { backgroundColor: '#fff' },
         headerTitleStyle: {
-            flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', fontFamily: Fonts.font, marginLeft: -30},
+            flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', fontFamily: Fonts.font, marginLeft: -30
+        },
         headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
     })
     state = {
@@ -26,7 +27,11 @@ export default class Status extends Component {
             this.setState({ request: demand })
         } else {
             Axios.authInstance.get(Axios.API.demand.today).then(res => {
-                this.setState({ request: res.data && res.data.demand ? res.data : null })
+                if (res.data.errorMsg === 'Invalid Token.') {
+                    this.props.navigation.replace('Login')
+                } else {
+                    this.setState({ request: res.data && res.data.demand ? res.data : null })
+                }
             })
         }
     }
@@ -51,7 +56,7 @@ export default class Status extends Component {
                                         )
                                         : null
                                     } */}
-                                    <ButtonField labelText={'Submit Voucher'} onPress={() => this.props.navigation.navigate('SubmitVoucher', {request: request})} />
+                                    <ButtonField labelText={'Submit Voucher'} onPress={() => this.props.navigation.navigate('SubmitVoucher', { request: request })} />
                                 </React.Fragment>
                                 :
                                 <Request request={request} navigation={this.props.navigation} origin={'Status'} />
@@ -61,7 +66,7 @@ export default class Status extends Component {
                     <View>
                         <Text>No demand </Text>
                     </View>
-                : null
+                : <SectionLoader loading={request === undefined} />
 
 
         )

@@ -30,7 +30,9 @@ export default class HistoryTabs extends Component {
         } else {
             this.setState({ loading: true })
             Axios.authInstance.get(Axios.API.demand.report(duration)).then(response => {
-                if (response.data)
+                if (response.data.errorMsg === 'Invalid Token.') {
+                    this.props.navigation.replace('Login')
+                } else if (response.data)
                 this.setState({
                     history: response.data.length > 0 ? response.data : null,
                     [duration]: response.data.length > 0 ? response.data : null,

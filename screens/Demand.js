@@ -26,7 +26,6 @@ export default class Demand extends Component {
   })
   componentWillMount() {
     Axios.authInstance.get(Axios.API.demand.today).then(response => {
-      console.log('demand res', response)
       this.setState({loading: false})
       if (response.data && !response.data.errorMsg && response.data.demand && response.data.demand.length > 0) {
           if (response.data.status === 'Pending') {
@@ -78,7 +77,9 @@ export default class Demand extends Component {
           this.state.SKO ? data.append('keroseneunit', this.state.SKO) : null
           Axios.authInstance.post(Axios.API.demand.create, data).then(response => {
             console.log('res', response)
-            if (response.data && response.data.status === 200) {
+            if (response.data.errorMsg === 'Invalid Token.') {
+              this.props.navigation.replace('Login')
+            } else if (response.data && response.data.status === 200) {
               this.props.navigation.replace('VoucherSubmitted', { origin: 'demand' })
             } else if (response.data.status === 403) {
               this.setState({ demandExists: true })
@@ -97,8 +98,9 @@ export default class Demand extends Component {
           }
           Axios.authInstance.post(Axios.API.demand.update, { 'demand': request.demand }, config).then(response => {
             console.log(response)
-            if (response.data && response.data.status === 200) {
-
+            if (response.data.errorMsg === 'Invalid Token.') {
+              this.props.navigation.replace('Login')
+            } else if (response.data && response.data.status === 200) {
               this.props.navigation.replace('VoucherSubmitted', { origin: 'editdemand' })
             } else {
               // todo something went wrong

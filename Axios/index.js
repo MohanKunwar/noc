@@ -6,6 +6,7 @@ const API = {
         register: 'auth/dealerregister',
         login: 'auth/login',
         forgotPassword: 'auth/forgotpassword',
+        changePassword: 'dealer/changepassword',
         resendCode: 'auth/resendcode',
         mobileConfirmation: 'auth/mobileconfirmation'
     },
