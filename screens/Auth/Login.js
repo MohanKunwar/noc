@@ -9,7 +9,7 @@ import Validation from '../../helpers/Validation'
 import SharedPrefs from '../../helpers/SharedPrefs'
 import Axios from '../../Axios'
 import { Fonts } from '../../helpers/Fonts';
-import Pushbots from 'pushbots-react-native';
+import Pushbots from 'pushbots-react-native'
 
 export default class Login extends Component {
 

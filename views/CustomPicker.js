@@ -28,7 +28,7 @@ export default class Picker extends React.Component {
                             <TouchableOpacity style={styles.clearButton} onPress={clear}>
                                 <Text style={{ color: '#fff' }}>Clear</Text>
                             </TouchableOpacity>
-                            <Text style={[styles.text, { color: selectedItem.color, marginTop: -10 }]}>
+                            <Text style={[styles.text, { color: '#000', marginTop: -10 }]}>
                                 {getLabel(selectedItem)}
                             </Text>
                         </View>

@@ -25,10 +25,10 @@ const styles = StyleSheet.create({
   modalBackground: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    // backgroundColor: '#fff'
   },
   activityIndicatorWrapper: {
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
     height: 100,
     width: 100,
     borderRadius: 10,

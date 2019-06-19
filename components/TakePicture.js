@@ -5,7 +5,9 @@ import {
     Text,
     View,
     TouchableOpacity,
+    Modal
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Entypo';
 // eslint-disable-next-line import/no-unresolved
 import { RNCamera } from 'react-native-camera';
 
@@ -79,11 +81,12 @@ export default class TakePicutre extends React.Component {
                           
                         }}
                     >
-                        <TouchableOpacity
-                            style={[styles.flipButton, styles.picButton, { flex: 0, alignSelf: 'center' }]}
-                            onPress={this.takePicture.bind(this)}
-                        >
-                            <Text style={styles.flipText}> SNAP </Text>
+                        <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.flipButton}>
+                            <Icon style={styles.icon}
+                                                name={'vinyl'}
+                                                size={50}
+                                                color={'#01A7DB'}
+                                            />
                         </TouchableOpacity>
                     </View>
             </RNCamera>
@@ -91,7 +94,14 @@ export default class TakePicutre extends React.Component {
     }
 
     render() {
-        return <View style={styles.container}>{this.renderCamera()}</View>;
+        return (
+            <Modal
+            transparent={true}
+            animationType={'none'}
+            onRequestClose={() => { console.log('close modal') }}>
+                <View style={styles.container}>{this.renderCamera()}</View>
+                </Modal>
+        )
     }
 }
 
@@ -103,20 +113,17 @@ const styles = StyleSheet.create({
     },
     flipButton: {
         flex: 0,
-        height: 40,
-        marginHorizontal: 2,
-        // marginTop: 200,
-        borderRadius: 8,
-        borderColor: 'white',
-        borderWidth: 1,
-        padding: 5,
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        borderColor: '#01A7DB',
+        borderWidth: 2,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#fff',
+        marginBottom: 30,
     },
-    flipText: {
-        color: 'white',
-        fontSize: 15,
-    },
+    
     picButton: {
         backgroundColor: 'darkseagreen',
     },
@@ -125,8 +132,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '600',
         position: 'relative',
-        // // top: 100,
-        // // marginTop: 30,
-        left: 20,
+        alignSelf: 'flex-end',
+        paddingRight: 20,
+        top: 10
     }
 });

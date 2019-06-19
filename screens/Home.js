@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Dimensions, ActivityIndicator } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/Entypo';
 import moment from 'moment'
 import CountDown from 'react-native-countdown-component'
 
@@ -125,9 +125,9 @@ export default class Home extends React.Component {
                                                     <View style={styles.countdownContainer}>
                                                         <Text style={{
                                                             color: '#EE272C',
-                                                            width: 60 + '%',
+                                                            width: 55 + '%',
                                                             fontSize: 12,
-                                                            paddingTop: 28,
+                                                            paddingTop: 20,
                                                             fontWeight: '500',
                                                             fontFamily: Fonts.font
                                                         }}>Time remaining to make demand</Text>
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
         borderColor: '#01A7DB',
         backgroundColor: '#e5f5f9',
         borderRadius: 5,
-        width: 40 + '%',
+        width: 45 + '%',
         paddingBottom: 4,
         justifyContent: 'flex-end',
     },

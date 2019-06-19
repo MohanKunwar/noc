@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import R from '../resources';
 import SharedPrefs from '../helpers/SharedPrefs'
 import { Fonts } from '../helpers/Fonts';
+import { SectionLoader } from '../views';
   ;
 
 export default class Splash extends Component {
@@ -10,15 +11,15 @@ export default class Splash extends Component {
     headerStyle: { marginTop: -60 }
   })
   state = {
-    loading: undefined
+    loading: false
   }
   async componentDidMount() {
     const dealer = await SharedPrefs.retrieveData('dealer')
     if (dealer) {
-      setTimeout(() => {
-        this.setState({ loading: true })
+      this.setState({ loading: true })
+      // setTimeout(() => {
         this.props.navigation.navigate('Home')
-      }, 500)
+      // }, 500)
     } else {
       this.setState({ loading: false })
     }
@@ -26,6 +27,7 @@ export default class Splash extends Component {
   }
 
   render() {
+    let dealer
     return (
       <View style={styles.container} >
         <Image
@@ -33,6 +35,9 @@ export default class Splash extends Component {
           source={R.images.logo}
         />
         <Text style={styles.TitleText}>NEPAL OIL CORPORATION LIMITED</Text>
+        {
+          !dealer 
+          ?
         <View style={styles.homeButton}>
         <TouchableOpacity style={styles.buttonLogin}
           onPress={() =>
@@ -50,6 +55,8 @@ export default class Splash extends Component {
           </Text>
         </TouchableOpacity>
         </View>
+        : <SectionLoader loading={this.state.loading} />
+        }
       </View>
 
     )
@@ -67,7 +74,7 @@ const styles = StyleSheet.create({
   },
   homeButton:{
     flexDirection: 'row',
-    top: 80,
+    top: 70,
     paddingHorizontal: 20,
     position: 'relative',
     bottom: 20

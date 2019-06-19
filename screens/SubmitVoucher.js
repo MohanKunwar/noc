@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import { CameraRoll, KeyboardAvoidingView, ScrollView, View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native'
 import { HeaderBackButton, Header } from 'react-navigation'
 import DatePicker from 'react-native-datepicker'
-import { TextField, CustomPicker } from '../views'
+import { TextField, CustomPicker, ButtonField } from '../views'
 import R from '../resources'
 import TakePicutre from '../components/TakePicture'
 import { Fonts } from '../helpers/Fonts'
 import moment from 'moment'
+import Icon from 'react-native-vector-icons/Entypo';
 import Axios from '../Axios';
 
 export default class SubmitVoucher extends Component {
@@ -119,9 +120,9 @@ export default class SubmitVoucher extends Component {
     render() {
         return (
             <KeyboardAvoidingView
-                keyboardVerticalOffset={Header.HEIGHT + 20}
-                style={styles.container}>
+                keyboardVerticalOffset={Header.HEIGHT + 20}>
                 <ScrollView>
+                    <View style={styles.container}>
                     <View style={styles.ratesContainer}>
                         {
                             this.state.demand
@@ -220,11 +221,10 @@ export default class SubmitVoucher extends Component {
                         {
                             this.state.openCamera
                                 ?
-                                <View style={styles.OpenCamera}>
-                                    <TakePicutre
-                                        imageFile={this.imageFile}
-                                        cancel={this.cancel} />
-                                </View>
+                                <TakePicutre
+                                    imageFile={this.imageFile}
+                                    style={styles.OpenCamera}
+                                    cancel={this.cancel} />
                                 :
                                 this.state.uri
                                     ?
@@ -248,7 +248,11 @@ export default class SubmitVoucher extends Component {
                                     :
                                     <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
                                         <TouchableOpacity onPress={() => this.setState({ openCamera: true, image: null })} style={styles.capture}>
-                                            <Text style={{ fontSize: 14 }}> SCAN </Text>
+                                        <Icon style={styles.icon}
+                                                name={'camera'}
+                                                size={40}
+                                                color={'#545556'}
+                                            />
                                         </TouchableOpacity>
                                     </View>
                         }
@@ -262,9 +266,11 @@ export default class SubmitVoucher extends Component {
 
                         }
                     </View>
-                    <TouchableOpacity >
+                    <ButtonField labelText={'Submit'} onPress={this.onSubmit.bind(this)} />
+                    {/* <TouchableOpacity >
                         <Text style={{ fontSize: 14 }} onPress={this.onSubmit} style={styles.submit}> Submit </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
+                    </View>
                 </ScrollView>
             </KeyboardAvoidingView>
         )
@@ -297,7 +303,7 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 15,
-        opacity: 0.7
+        color: '#626368'
     },
     scanButton: {
         backgroundColor: '#01b7da',
@@ -330,6 +336,8 @@ const styles = StyleSheet.create({
     OpenCamera: {
         position: 'absolute',
         top: 0,
+        left: 0,
+        right: 0,
         width: 100 + '%',
         zIndex: 99
     },
