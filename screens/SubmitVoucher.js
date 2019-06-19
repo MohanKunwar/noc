@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { KeyboardAvoidingView, ScrollView, View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native'
+import { CameraRoll, KeyboardAvoidingView, ScrollView, View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native'
 import { HeaderBackButton, Header } from 'react-navigation'
 import DatePicker from 'react-native-datepicker'
 import { TextField, CustomPicker } from '../views'
@@ -7,6 +7,7 @@ import R from '../resources'
 import TakePicutre from '../components/TakePicture'
 import { Fonts } from '../helpers/Fonts'
 import moment from 'moment'
+import Axios from '../Axios';
 
 export default class SubmitVoucher extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -62,15 +63,15 @@ export default class SubmitVoucher extends Component {
         }
     }
     imageFile = data => {
-        console.log(data.base64)
-        this.tempImage = data.base64
-        this.setState({ openCamera: false, uri: data.uri })
+        this.setState({ openCamera: false, uri: data.uri, base64: data.base64 })
     }
     cancel = () => {
         this.setState({ openCamera: false })
     }
+
+
     onSubmit = () => {
-        const { vouchernum, amount, voucherdate, bank, voucherimage } = this.state
+        const { vouchernum, amount, voucherdate, bank, voucherimage, base64 } = this.state
         this.setState({
             errVouchernum: vouchernum ? null : 'Required',
             errAmount: amount ? null : 'Required',
@@ -85,7 +86,32 @@ export default class SubmitVoucher extends Component {
                 !this.state.errBank &&
                 !this.state.errVoucherimage
             ) {
-                console.log(this.state)
+                let request = this.props.navigation.getParam('request')
+                let commaDelimitedDemands = ''
+                if (request) {
+                    request.demand.map((demand, index) => {
+                        if (index === request.demand.length - 1) {
+                            commaDelimitedDemands += demand.demandid
+                        } else {
+                            commaDelimitedDemands += demand.demandid + ','
+                        }
+                    })
+
+                    let data = new FormData()
+                    data.append('voucherimage', base64)
+                    data.append('voucherno', vouchernum)
+                    data.append('amount', amount)
+                    data.append('voucherdate', voucherdate)
+                    data.append('bankname', bank)
+                    data.append('demandids', commaDelimitedDemands)
+                    Axios.authInstance.post(Axios.API.voucher.submit, data).then(response => {
+                        if (response.data && response.data.status === 200) {
+                            this.props.navigation.navigate('VoucherSubmitted')
+                        }
+                    })
+                } else {
+                    console.log('something went wrong')
+                }
             }
         })
     }
@@ -142,7 +168,7 @@ export default class SubmitVoucher extends Component {
                             date={this.state.voucherdate}
                             mode="date"
                             placeholder="Select Date"
-                            format="MM/DD/YYYY"
+                            format="YYYY-MM-DD"
                             maxDate={new Date()}
                             confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
@@ -209,7 +235,7 @@ export default class SubmitVoucher extends Component {
                                             !this.state.voucherimage
                                                 ?
                                                 <View>
-                                                    <TouchableOpacity onPress={() => this.setState({ voucherimage: this.tempImage, errVoucherimage: null })} >
+                                                    <TouchableOpacity onPress={() => this.setState({ voucherimage: this.state.base64, errVoucherimage: null })} >
                                                         <Text style={{ fontSize: 14 }}> Use this </Text>
                                                     </TouchableOpacity>
                                                     <TouchableOpacity onPress={() => this.setState({ openCamera: true })}>

@@ -33,9 +33,8 @@ export default class TakePicutre extends React.Component {
 
     takePicture = async function () {
         if (this.camera) {
-            const options = { quality: 1, base64: true }
+            const options = { quality: .5, base64: true }
             const data = await this.camera.takePictureAsync(options)
-            console.log(data.base64)
             this.props.imageFile(data)
 
         }

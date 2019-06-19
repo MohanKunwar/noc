@@ -9,6 +9,7 @@ import Validation from '../../helpers/Validation'
 import SharedPrefs from '../../helpers/SharedPrefs'
 import Axios from '../../Axios'
 import { Fonts } from '../../helpers/Fonts';
+import Pushbots from 'pushbots-react-native';
 
 export default class Login extends Component {
 
@@ -58,6 +59,7 @@ export default class Login extends Component {
                 }
               })
             } else if (response.dealer) {
+              Pushbots.setAlias(`${this.state.dealerid}`)
               SharedPrefs.storeData('accesstoken', response.accesstoken)
               SharedPrefs.storeData('refreshtoken', response.refreshtoken)
               SharedPrefs.storeData('dealer', response.dealer)

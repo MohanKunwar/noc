@@ -28,6 +28,7 @@ authInstance.interceptors.request.use(async request => {
     const accesstoken = await SharedPrefs.retrieveData('accesstoken')
     const refreshtoken = await SharedPrefs.retrieveData('refreshtoken')
     if (accesstoken && refreshtoken) {
+        console.log('token added', request)
     request.headers.accesstoken = accesstoken
     request.headers.refreshtoken = refreshtoken
     }
