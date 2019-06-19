@@ -123,10 +123,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         marginBottom: 30,
     },
-    
-    picButton: {
-        backgroundColor: 'darkseagreen',
-    },
     Canclecamera:{
         color: 'red',
         fontSize: 20,

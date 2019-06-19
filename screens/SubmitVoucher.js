@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CameraRoll, KeyboardAvoidingView, ScrollView, View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native'
+import { CameraRoll, KeyboardAvoidingView, ScrollView, View, Text, StyleSheet, TouchableOpacity, ImageBackground, Image } from 'react-native'
 import { HeaderBackButton, Header } from 'react-navigation'
 import DatePicker from 'react-native-datepicker'
 import { TextField, CustomPicker, ButtonField } from '../views'
@@ -190,7 +190,7 @@ export default class SubmitVoucher extends Component {
                         />
                         {
                             this.state.errVoucherdate
-                                ? <Text>{this.state.errVoucherdate}</Text>
+                                ? <Text style={{color: 'red', fontSize: '12'}}>{this.state.errVoucherdate}</Text>
                                 : null
                         }
                         {
@@ -215,7 +215,7 @@ export default class SubmitVoucher extends Component {
                         }
                         {
                             this.state.errBank
-                                ? <Text>Please select a bank</Text>
+                                ? <Text style={{color: 'red', fontSize: 12}}>Please select a bank</Text>
                                 : null
                         }
                         {
@@ -228,25 +228,25 @@ export default class SubmitVoucher extends Component {
                                 :
                                 this.state.uri
                                     ?
-                                    <React.Fragment>
+                                    <View style= {{position: 'relative'}}>
                                         <ImageBackground style={styles.image} source={{ uri: this.state.uri }} />
 
                                         {
                                             !this.state.voucherimage
                                                 ?
-                                                <View>
-                                                    <TouchableOpacity onPress={() => this.setState({ voucherimage: this.state.base64, errVoucherimage: null })} >
-                                                        <Text style={{ fontSize: 14 }}> Use this </Text>
+                                                <View style={{flexDirection: 'row', marginTop: 10, flex: 1, justifyContent: 'space-around',}}>
+                                                    <TouchableOpacity onPress={() => this.setState({ voucherimage: this.state.base64, errVoucherimage: null })} style={styles.useThis}>
+                                                        <Text style={{ fontSize: 14, color: '#fff', fontWeight: '500'}}> Use this </Text>
                                                     </TouchableOpacity>
-                                                    <TouchableOpacity onPress={() => this.setState({ openCamera: true })}>
-                                                        <Text style={{ fontSize: 14 }}> Take another </Text>
+                                                    <TouchableOpacity onPress={() => this.setState({ openCamera: true })} style={styles.takeAnother}>
+                                                        <Text style={{ fontSize: 14, color: 'green', fontWeight: '500' }}> Take another </Text>
                                                     </TouchableOpacity>
                                                 </View>
-                                                : <Text>Accepted git over image</Text>
+                                                : <Image style={styles.imageApproved} source={R.images.approved} />
                                         }
-                                    </React.Fragment>
+                                    </View>
                                     :
-                                    <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+                                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
                                         <TouchableOpacity onPress={() => this.setState({ openCamera: true, image: null })} style={styles.capture}>
                                         <Icon style={styles.icon}
                                                 name={'camera'}
@@ -260,7 +260,7 @@ export default class SubmitVoucher extends Component {
                             this.state.errVoucherimage
                                 ?
                                 this.state.uri
-                                    ? <Text>Please accept or Reject the Preview Image</Text>
+                                    ? <Text style={{color: 'red', fontSize: 12}}>Please accept or Reject the Preview Image</Text>
                                     : <Text>Please add an Image of Voucher</Text>
                                 : null
 
@@ -344,9 +344,40 @@ const styles = StyleSheet.create({
     image: {
         width: 100 + '%',
         height: 300,
-        backgroundColor: 'red'
     },
     submit: {
         bottom: 0
-    }
+    },
+    useThis:{
+        width: 45 + '%',
+        borderWidth: 1,
+        borderColor: 'green',
+        backgroundColor: 'green',
+        paddingVertical: 3,
+        paddingHorizontal: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 4,
+        marginRight: 15
+    },
+    takeAnother:{
+        width: 45 + '%',
+        alignSelf: 'flex-end',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: 'green',
+        paddingVertical: 3,
+        paddingHorizontal: 10,
+        borderRadius: 4,
+        marginLeft: 15,
+    },
+    imageApproved: {
+        alignSelf: 'stretch',
+        marginTop: 3,
+        position: 'absolute',
+        top: 10,
+        right: 10
+    },
 });
