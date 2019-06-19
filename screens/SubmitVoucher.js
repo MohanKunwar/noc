@@ -130,7 +130,7 @@ export default class SubmitVoucher extends Component {
                                 this.state.demand.map((demand, index) =>
                                     <View key={index} style={[styles.rateTypes, this.state.demand.length > 1 && index === 0 ? { borderRightWidth: 1, borderColor: '#ababab' } : null]}>
                                         <Text style={styles.label}>{demand.fueltype} Rate</Text>
-                                        <Text>NPR. {demand.totalrate / demand.approvedunit}/L</Text>
+                                        <Text>NPR.<Text style={{color: '#000', fontWeight: '500'}}> {demand.totalrate / demand.approvedunit}/L</Text></Text>
                                     </View>
                                 )
                                 : null
@@ -190,7 +190,7 @@ export default class SubmitVoucher extends Component {
                         />
                         {
                             this.state.errVoucherdate
-                                ? <Text style={{color: 'red', fontSize: '12'}}>{this.state.errVoucherdate}</Text>
+                                ? <Text style={styles.error}>{this.state.errVoucherdate}</Text>
                                 : null
                         }
                         {
@@ -215,7 +215,7 @@ export default class SubmitVoucher extends Component {
                         }
                         {
                             this.state.errBank
-                                ? <Text style={{color: 'red', fontSize: 12}}>Please select a bank</Text>
+                                ? <Text style={styles.error}>Please select a bank</Text>
                                 : null
                         }
                         {
@@ -260,7 +260,7 @@ export default class SubmitVoucher extends Component {
                             this.state.errVoucherimage
                                 ?
                                 this.state.uri
-                                    ? <Text style={{color: 'red', fontSize: 12}}>Please accept or Reject the Preview Image</Text>
+                                    ? <Text style={styles.error}>Please accept or Reject the Preview Image</Text>
                                     : <Text>Please add an Image of Voucher</Text>
                                 : null
 
@@ -380,4 +380,8 @@ const styles = StyleSheet.create({
         top: 10,
         right: 10
     },
+    error:{
+        color: 'red', 
+        fontSize: 12
+    }
 });

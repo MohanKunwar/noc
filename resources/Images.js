@@ -7,6 +7,7 @@ const images = {
     submitted: require('../assets/images/submitted.png'),
     notice: '',
     approved: require('../assets/images/approved.png'),
-    arrow_right: require('../assets/images/arrow_right.png')
+    arrow_right: require('../assets/images/arrow_right.png'),
+    cancel: require('../assets/images/cancel.png')
   }
   export default images

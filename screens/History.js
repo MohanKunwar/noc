@@ -6,6 +6,7 @@ import History from '../components/History'
 import R from '../resources'
 import Axios from '../Axios';
 import { Fonts } from '../helpers/Fonts';
+import { SectionLoader } from '../views';
 export default class HistoryTabs extends Component {
     static navigationOptions = ({ navigation }) => ({
         headerTitle: 'History',
@@ -18,13 +19,15 @@ export default class HistoryTabs extends Component {
         week: null,
         twoweek: null,
         month: null,
-        history: null
+        history: null,
+        color: '#626368'
     }
     componentWillMount() {
         this.setState({ loading: true })
         this.getHistory('week')
     }
     getHistory(duration) {
+        this.setState({color: '#000'})
         if (this.state[duration]) {
             this.setState({ history: this.state[duration] })
         } else {
@@ -39,25 +42,28 @@ export default class HistoryTabs extends Component {
             })
         }
     }
+    
     render() {
         const { loading, history } = this.state
         return (
             <React.Fragment>
                 <View style={styles.timeLine}>
-                    <Text onPress={() => this.getHistory('week')}>Week</Text>
-                    <Text onPress={() => this.getHistory('twoweek')}>2 Weeks</Text>
-                    <Text onPress={() => this.getHistory('month')}>Month</Text>
+                    <Text onPress={() => this.getHistory('week')} style={{color: this.state.color}}>Week</Text>
+                    <Text onPress={() => this.getHistory('twoweek')} style={{color: this.state.color}} >2 Weeks</Text>
+                    <Text onPress={() => this.getHistory('month')} style={{color: this.state.color}} >Month</Text>
                 </View>
                 <ScrollView>
+                    <View style={{padding: 15}}>
                     {
                         !loading
                             ?
                             <History history={history} />
-                            : <Text>loading git here</Text>
+                            : <SectionLoader loading={this.state.loading} />
                     }
                     <View style={styles.pdfContainer}>
                         <Text style={styles.pdfText}>Export your demand history in Excel </Text>
                         <Image style={styles.image} source={R.images.approved} />
+                    </View>
                     </View>
                 </ScrollView>
             </React.Fragment>

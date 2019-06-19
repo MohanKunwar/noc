@@ -62,7 +62,7 @@ export default class ContinueRegister extends React.Component {
       errorPassword: Validation.validates('password', this.state.password),
       errorConfirmPassword: Validation.validates('password', this.state.confirmpassword),
     }, () => {
-      if (!errorVat && !errorDealerType && !errorDepo && !errorMobile && !errorLandline && !errorPassword && !errorConfirmPassword) {
+      if (!this.state.errorVat && !this.state.errorDealerType && !this.state.errorDepo && !this.state.errorMobile && !this.state.errorLandline && !this.state.errorPassword && !this.state.errorConfirmPassword) {
         if (this.comparePassword(this.state.password, this.state.confirmpassword)) {
           prevScreenData = this.props.navigation.getParam('data')
         }
@@ -89,10 +89,7 @@ export default class ContinueRegister extends React.Component {
             if (response.errorMsg) {
               const server_error = response.errorMsg
               this.setState({ serverError: true })
-              let serverVat_er = 'The Dealer ID field must contain a unique value.'
-              if(server_error === serverVat_er){
               this.props.navigation.navigate('Register', {data: server_error, prevScreenData: null})
-            }
             } 
              else if (res.data) {
               this.setState({value: null})
