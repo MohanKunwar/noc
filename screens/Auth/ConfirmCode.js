@@ -39,7 +39,7 @@ export default class ConfirmCode extends Component {
                         if (this.state.origin === 'register') {
                             this.props.navigation.replace('AwaitApproval', {origin: 'register'})
                         } else if (this.state.origin === 'forgotpassword') {
-                            this.props.navigation.replace('ResetPassword', {})
+                            this.props.navigation.replace('ResetPassword', {dealer: response.data.dealer})
                         } else if (this.state.origin === 'login') {
                             if (response.data.dealer) {
                                 SharedPrefs.storeData('accesstoken', response.data.accesstoken)

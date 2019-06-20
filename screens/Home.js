@@ -26,7 +26,6 @@ export default class Home extends React.Component {
             this.setState({ countdown: currTime.isBefore(deadline) ? moment(deadline).diff(currTime) : false })
         })
         Axios.authInstance.get(Axios.API.demand.today).then(response => {
-            console.log(response, 're')
             if (response.data && !response.data.errorMsg) {
                 if (response.data.demand) {
                     // response.data.status = 'Approved'
@@ -35,13 +34,13 @@ export default class Home extends React.Component {
                     this.setState({ currReq: false, loginRequired: false })
                 }
             } else if (response.data.errorMsg === 'Invalid Token.') {
-                this.props.navigation.navigate('Login')
+                this.props.navigation.replace('Login')
             }
         })
         Axios.authInstance.get(Axios.API.demand.report('week')).then(response => {
-            console.log('resp', response)
-            if (response.data) {
-
+            if (response.data.errorMsg === 'Invalid Token.') {
+                this.props.navigation.replace('Login')
+            } else if (response.data) {
                 this.setState({ history: response.data })
             }
         })

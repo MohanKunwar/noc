@@ -10,8 +10,8 @@ export default class VoucherSubmitted extends Component {
     render() {
        return(
             <View style={{flex: 1, flexDirection: 'column', margin: 10, alignItems: 'center',}}>
-                <Text style={styles.textTop}>Request Submitted</Text>
-                <Text style={styles.textBottom}>Your demand is successfully submitted</Text>
+                <Text style={styles.textTop}>Voucher Submitted</Text>
+                <Text style={styles.textBottom}>Your Voucher has been successfully submitted. You will be notified once it is approved.</Text>
                 <View style={styles.imgView}>
                 <Image style={styles.submittedImg} resizeMode={'contain'} source={R.images.submitted}/>
                 {/* <SvgUri width='200' height='200' fill='#01A7DB' source={R.images.submitted} /> */}

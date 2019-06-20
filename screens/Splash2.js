@@ -4,30 +4,29 @@ import R from '../resources';
 import SharedPrefs from '../helpers/SharedPrefs'
 import { Fonts } from '../helpers/Fonts';
 import { SectionLoader } from '../views';
-  ;
+;
 
 export default class Splash extends Component {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({ navigation }) => ({
     headerStyle: { marginTop: -60 }
   })
   state = {
     loading: false
   }
   async componentDidMount() {
+    this.setState({ loading: true })
     const dealer = await SharedPrefs.retrieveData('dealer')
     if (dealer) {
-      this.setState({ loading: true })
-      // setTimeout(() => {
+      setTimeout(() => {
+        this.setState({ loading: false })
         this.props.navigation.navigate('Home')
-      // }, 500)
+      }, 2000)
     } else {
       this.setState({ loading: false })
     }
-
   }
 
   render() {
-    let dealer
     return (
       <View style={styles.container} >
         <Image
@@ -36,26 +35,26 @@ export default class Splash extends Component {
         />
         <Text style={styles.TitleText}>NEPAL OIL CORPORATION LIMITED</Text>
         {
-          !dealer 
-          ?
-        <View style={styles.homeButton}>
-        <TouchableOpacity style={styles.buttonLogin}
-          onPress={() =>
-            this.props.navigation.navigate('Login')
-          }>
-          <Text style={[styles.buttonText, { color: '#fff'}]}>
-            Log In
+          !this.state.loading
+            ?
+            <View style={styles.homeButton}>
+              <TouchableOpacity style={styles.buttonLogin}
+                onPress={() =>
+                  this.props.navigation.navigate('Login')
+                }>
+                <Text style={[styles.buttonText, { color: '#fff' }]}>
+                  Log In
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.navigate('Register')}
-        >
-          <Text style={[styles.buttonText, { color: '#01A7DB'}]}>
-            Register
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.buttonRegister}
+                onPress={() => this.props.navigation.navigate('Register')}
+              >
+                <Text style={[styles.buttonText, { color: '#01A7DB' }]}>
+                  Register
           </Text>
-        </TouchableOpacity>
-        </View>
-        : <SectionLoader loading={this.state.loading} />
+              </TouchableOpacity>
+            </View>
+            : <SectionLoader loading={this.state.loading} />
         }
       </View>
 
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 100 + '%',
   },
-  homeButton:{
+  homeButton: {
     flexDirection: 'row',
     top: 70,
     paddingHorizontal: 20,
@@ -100,14 +99,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginLeft: 10
   },
-  TitleText:{
+  TitleText: {
     color: '#fff',
     fontSize: 18,
     paddingVertical: 10,
     fontWeight: '700',
     fontFamily: Fonts.font,
   },
-  buttonText:{
+  buttonText: {
     fontSize: 16,
     fontFamily: Fonts.font,
   }

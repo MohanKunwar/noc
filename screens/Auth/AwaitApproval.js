@@ -13,7 +13,11 @@ export default class AwaitApproval extends Component {
             {
                 origin === 'login' ?
                 <Text style={styles.message}>Your account is awaiting approval from NOC. You will be notified upon approval</Text>
-                : <Text styles={styles.message}>Your account has been successfully registered. You will be notified upon approval.</Text>
+                : 
+                origin === 'resetPassword' ?
+                <Text style={styles.message}>Your password has been successfully updated. Your account is awaiting approval from NOC. You will be notified upon approval.</Text>
+                :
+                <Text styles={styles.message}>Your account has been successfully registered. You will be notified upon approval.</Text>
             }
                 <Image src={R.images.submitted} />
             </View>

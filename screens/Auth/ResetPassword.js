@@ -3,6 +3,7 @@ import { PasswordField, ButtonField } from '../../views'
 import { View, Text, StyleSheet } from 'react-native'
 import { HeaderBackButton } from 'react-navigation'
 import Validation from '../../helpers/Validation'
+import Axios from '../../Axios';
 export default class ResetPassword extends Component {
     state = {
         password: '',
@@ -20,9 +21,22 @@ export default class ResetPassword extends Component {
             if (!this.state.errorPassword && !this.state.errorConfirm) {
 
                 if (this.comparePassword(this.state.password, this.state.confirmPassword)) {
-                    // reset password api call here
-
-                    this.props.navigation.replace('Home')
+                    let data = new FormData()
+                    data.append('password', this.state.password)
+                    data.append('confirmpassword', this.state.confirmPassword)
+                    Axios.authInstance.post(Axios.API.auth.changePassword, data).then(response => {
+                        if (response.data.errorMsg === 'Invalid Token.') {
+                            // multiple devices simultaneous login scenario only
+                            this.props.navigation.replace('Login')
+                        } else if (response.data.status === 200) {
+                            let dealer = this.props.navigation.getParam('dealer')
+                            if (dealer.status === 'Approved') {
+                                this.props.navigation.replace('Home')
+                            } else {
+                                this.props.navigation.replace('AwaitApproval', {origin: 'resetPassword'})
+                            }
+                        }
+                    })
                 }
             }
         })
