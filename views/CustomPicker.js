@@ -52,9 +52,10 @@ export default class Picker extends React.Component {
 
     render() {
         return (
+            <React.Fragment>
             <CustomPicker {...this.props}
                 fieldTemplate={this.renderField}
-                style={[styles.pickerContainer, { borderBottomColor: this.state.BorderColor}]}
+                style={[styles.pickerContainer, { borderBottomColor: this.state.BorderColor}, this.props.error ? styles.errorInput : null]}
                 modalStyle={{
                     backgroundColor: '#fff', 
                     padding: 10,
@@ -64,8 +65,9 @@ export default class Picker extends React.Component {
                 }}
                 optionTemplate={this.renderOption}
                 backdropStyle={{backgroundColor: 'rgba(0, 0, 0, 0.7)'}}
-                
             />
+            <Text style={styles.error}> {this.props.error ? this.props.error : ''}</Text>
+            </React.Fragment>
         )
     }
 }
@@ -89,6 +91,9 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row'
       },
+      errorInput: {
+        borderColor: '#ff0000'
+    }
     //   box: {
     //     height: 15,
     //     backgroundColor: 'red'

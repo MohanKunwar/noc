@@ -31,11 +31,11 @@ export default class SideDrawer extends Component {
           />
           <View style={styles.userInfo}>
             <Text style={{
-              fontSize: 18, color: '#fff', fontWeight: '700',
+              fontSize: 19, color: '#fff',
               fontFamily: Fonts.font
             }}>Jyoti Petrol Pump</Text>
             <Text style={{
-              fontSize: 12, color: '#fff', fontWeight: '400',
+              fontSize: 12, color: '#fff',
               fontFamily: Fonts.font
             }}>Butwal 5, Golpark</Text>
           </View>
@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
   linkText: {
     paddingLeft: 8,
     fontSize: 16,
-    fontWeight: '600',
     color: '#000',
     fontFamily: Fonts.font
   }

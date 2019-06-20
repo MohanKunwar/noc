@@ -127,7 +127,6 @@ export default class Home extends React.Component {
                                                             width: 55 + '%',
                                                             fontSize: 12,
                                                             paddingTop: 20,
-                                                            fontWeight: '500',
                                                             fontFamily: Fonts.font
                                                         }}>Time remaining to make demand</Text>
                                                         <CountDown

@@ -31,7 +31,7 @@ export default class Notifications extends Component {
         </View>
         </View>
         <View style={styles.status}>
-        <Text style={{color: '#000'}}>Your <Text>demand</Text> has been completed</Text>
+        <Text style={styles.completeMsg}>Your <Text>demand</Text> has been completed</Text>
         </View>
       </View>
       <View style={styles.notificationContainer}>
@@ -48,7 +48,7 @@ export default class Notifications extends Component {
         </View>
         </View>
         <View style={styles.status}>
-        <Text style={{color: '#000'}}>Your <Text>demand</Text> has been completed</Text>
+        <Text style={styles.completeMsg}>Your <Text>demand</Text> has been completed</Text>
         </View>
       </View>
       <View style={styles.notificationContainer}>
@@ -65,7 +65,7 @@ export default class Notifications extends Component {
         </View>
         </View>
         <View style={styles.status}>
-        <Text style={{color: '#000'}}>Your <Text>demand</Text> has been completed</Text>
+        <Text style={styles.completeMsg}>Your <Text>demand</Text> has been completed</Text>
         </View>
       </View>
       
@@ -81,12 +81,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(171, 171, 171, 0.5)',
-  },
-  title: {
-    color: '#01A7DB',
-    fontSize: 19,
-    fontWeight: '700',
-    fontFamily: Fonts.font,
   },
   logoContainer:{
     height: 50,
@@ -119,5 +113,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
      paddingLeft: 15, 
      paddingTop: 5
+  },
+  completeMsg:{
+    color: '#000',
+    fontFamily: Fonts.font,
   }
 })

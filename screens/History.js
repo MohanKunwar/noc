@@ -20,18 +20,17 @@ export default class HistoryTabs extends Component {
         twoweek: null,
         month: null,
         history: null,
-        color: '#626368'
+        btnSelected: 1
     }
     componentWillMount() {
         this.setState({ loading: true })
         this.getHistory('week')
     }
     getHistory(duration) {
-        this.setState({color: '#000'})
+        // this.setState({color: '#000'})
         if (this.state[duration]) {
             this.setState({ history: this.state[duration] })
         } else {
-            this.setState({ loading: true })
             Axios.authInstance.get(Axios.API.demand.report(duration)).then(response => {
                 if (response.data.errorMsg === 'Invalid Token.') {
                     this.props.navigation.replace('Login')
@@ -50,10 +49,22 @@ export default class HistoryTabs extends Component {
         return (
             <React.Fragment>
                 <View style={styles.timeLine}>
-                    <Text onPress={() => this.getHistory('week')} style={{color: this.state.color}}>Week</Text>
-                    <Text onPress={() => this.getHistory('twoweek')} style={{color: this.state.color}} >2 Weeks</Text>
-                    <Text onPress={() => this.getHistory('month')} style={{color: this.state.color}} >Month</Text>
-                </View>
+                    <Text 
+                    style={(this.state.btnSelected== 1)?styles.btnSelected:styles.notSelected} 
+                    onPress={() => [this.setState({ btnSelected: 1 }), this.getHistory('week')]}
+                    isActive={this.state.btnSelected === 1}
+                    >Week</Text>
+                    <Text 
+                    style={(this.state.btnSelected== 2)?styles.btnSelected:styles.notSelected} 
+                    onPress={() => [this.setState({ btnSelected: 2 }), this.getHistory('twoweek')]}
+                    isActive={this.state.btnSelected === 2} 
+                    >2 Weeks</Text>
+                    <Text 
+                    style={(this.state.btnSelected== 3)?styles.btnSelected:styles.notSelected} 
+                    onPress={() => [this.setState({ btnSelected: 3 }), this.getHistory('month')]} 
+                    isActive={this.state.btnSelected === 3}
+                    >Month</Text>
+                </View>     
                 <ScrollView>
                     <View style={{padding: 15}}>
                     {
@@ -144,5 +155,12 @@ const styles = StyleSheet.create({
     approvedQuantity: {
         fontWeight: '600',
         fontFamily: Fonts.font
-    }
+    },
+    btnSelected: {
+        color: '#000',
+        fontWeight: '500'
+     },
+     notSelected : {
+         color: '#626368'
+     }
 })

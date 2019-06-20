@@ -55,7 +55,7 @@ export default class Request extends Component {
                                 ?
                                 <React.Fragment>
                                     <Text style={styles.label}>Petrol</Text>
-                                    <Text style={[styles.quantity, { marginBottom: 15 }]}>{MS ? `${MS} LIT` : 'No Demand'}</Text>
+                                    <Text style={[styles.quantity, { marginBottom: 15 }]}>{MS ? `${MS} LIT` : <Text style={styles.noDenamd}>No Demand</Text>}</Text>
 
                                 </React.Fragment>
                                 :
@@ -66,7 +66,7 @@ export default class Request extends Component {
                                 ?
                                 <React.Fragment>
                                     <Text style={styles.label}>Diesel</Text>
-                                    <Text style={styles.quantity}>{HSD ? `${HSD} LIT` : 'No Demand'}</Text>
+                                    <Text style={styles.quantity}>{HSD ? `${HSD} LIT` : <Text style={styles.noDenamd}>No Demand</Text>}</Text>
 
                                 </React.Fragment>
                                 :
@@ -77,7 +77,7 @@ export default class Request extends Component {
                                 ?
                                 <React.Fragment>
                                     <Text style={styles.label}>Kerosene</Text>
-                                    <Text style={styles.quantity}>{SKO ? `${SKO} LIT` : 'No Demand'}</Text>
+                                    <Text style={styles.quantity}>{SKO ? `${SKO} LIT` : <Text style={styles.noDenamd}>No Demand</Text>}</Text>
 
                                 </React.Fragment>
                                 :
@@ -143,15 +143,14 @@ const styles = StyleSheet.create({
         width: 35 + '%'
     },
     label: {
-        opacity: 0.9,
         fontSize: 14,
         fontFamily: Fonts.font
     },
     quantity: {
         fontSize: 18,
-        fontWeight: '500',
         color: '#000',
-        fontFamily: Fonts.fontDigit
+        fontFamily: Fonts.fontDigit,
+        paddingTop: 5
     },
     statusContainer: {
         width: 65 + '%',
@@ -194,5 +193,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         padding: 10,
         fontFamily: Fonts.fontItalic
+    },
+    noDenamd: {
+        color: '#aaacaf'
     }
 })

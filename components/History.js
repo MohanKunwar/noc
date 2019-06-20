@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
     },
     quantity: {
         fontSize: 20,
-        fontWeight: '700',
         color: '#000',
         fontFamily: Fonts.fontDigit
     },
@@ -101,7 +100,6 @@ const styles = StyleSheet.create({
         paddingLeft: 5
     },
     approvedQuentity: {
-        fontWeight: '600',
         fontFamily: Fonts.fontDigit
     },
     imageReject: {
