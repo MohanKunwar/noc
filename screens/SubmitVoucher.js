@@ -263,7 +263,7 @@ export default class SubmitVoucher extends Component {
                                 ?
                                 this.state.uri
                                     ? <Text style={styles.error}>Please accept or Reject the Preview Image</Text>
-                                    : <Text>Please add an Image of Voucher</Text>
+                                    : <Text style={styles.error}>Please add an Image of Voucher</Text>
                                 : null
 
                         }

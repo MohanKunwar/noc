@@ -74,6 +74,14 @@ export default class SideDrawer extends Component {
             />
             <Text style={styles.linkText}>Notifications</Text>
           </TouchableOpacity>
+          <TouchableOpacity style={styles.link} onPress={() => this.props.navigation.navigate('SubmitVoucher')}>
+            <Icon style={styles.icon}
+              name={'bell'}
+              size={20}
+              color={'#01A7DB'}
+            />
+            <Text style={styles.linkText}>SubmitVoucher</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.bottomLinks}>
