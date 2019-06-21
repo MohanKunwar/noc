@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CameraRoll, KeyboardAvoidingView, ScrollView, View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native'
+import { CameraRoll, KeyboardAvoidingView, ScrollView, View, Text, StyleSheet, TouchableOpacity, ImageBackground, Image } from 'react-native'
 import { HeaderBackButton, Header } from 'react-navigation'
 import DatePicker from 'react-native-datepicker'
 import { TextField, CustomPicker, ButtonField } from '../views'
@@ -132,7 +132,7 @@ export default class SubmitVoucher extends Component {
                                 this.state.demand.map((demand, index) =>
                                     <View key={index} style={[styles.rateTypes, this.state.demand.length > 1 && index === 0 ? { borderRightWidth: 1, borderColor: '#ababab' } : null]}>
                                         <Text style={styles.label}>{demand.fueltype} Rate</Text>
-                                        <Text>NPR. {demand.totalrate / demand.approvedunit}/L</Text>
+                                        <Text>NPR.<Text style={{color: '#000', fontWeight: '500'}}> {demand.totalrate / demand.approvedunit}/L</Text></Text>
                                     </View>
                                 )
                                 : null
@@ -192,7 +192,7 @@ export default class SubmitVoucher extends Component {
                         />
                         {
                             this.state.errVoucherdate
-                                ? <Text>{this.state.errVoucherdate}</Text>
+                                ? <Text style={styles.error}>{this.state.errVoucherdate}</Text>
                                 : null
                         }
                         {
@@ -217,7 +217,7 @@ export default class SubmitVoucher extends Component {
                         }
                         {
                             this.state.errBank
-                                ? <Text>Please select a bank</Text>
+                                ? <Text style={styles.error}>Please select a bank</Text>
                                 : null
                         }
                         {
@@ -230,25 +230,25 @@ export default class SubmitVoucher extends Component {
                                 :
                                 this.state.uri
                                     ?
-                                    <React.Fragment>
+                                    <View style= {{position: 'relative'}}>
                                         <ImageBackground style={styles.image} source={{ uri: this.state.uri }} />
 
                                         {
                                             !this.state.voucherimage
                                                 ?
-                                                <View>
-                                                    <TouchableOpacity onPress={() => this.setState({ voucherimage: this.state.base64, errVoucherimage: null })} >
-                                                        <Text style={{ fontSize: 14 }}> Use this </Text>
+                                                <View style={{flexDirection: 'row', marginTop: 10, flex: 1, justifyContent: 'space-around',}}>
+                                                    <TouchableOpacity onPress={() => this.setState({ voucherimage: this.state.base64, errVoucherimage: null })} style={styles.useThis}>
+                                                        <Text style={{ fontSize: 14, color: '#fff', fontWeight: '500'}}> Use this </Text>
                                                     </TouchableOpacity>
-                                                    <TouchableOpacity onPress={() => this.setState({ openCamera: true })}>
-                                                        <Text style={{ fontSize: 14 }}> Take another </Text>
+                                                    <TouchableOpacity onPress={() => this.setState({ openCamera: true })} style={styles.takeAnother}>
+                                                        <Text style={{ fontSize: 14, color: 'green', fontWeight: '500' }}> Take another </Text>
                                                     </TouchableOpacity>
                                                 </View>
-                                                : <Text>Accepted git over image</Text>
+                                                : <Image style={styles.imageApproved} source={R.images.approved} />
                                         }
-                                    </React.Fragment>
+                                    </View>
                                     :
-                                    <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+                                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
                                         <TouchableOpacity onPress={() => this.setState({ openCamera: true, image: null })} style={styles.capture}>
                                         <Icon style={styles.icon}
                                                 name={'camera'}
@@ -262,7 +262,7 @@ export default class SubmitVoucher extends Component {
                             this.state.errVoucherimage
                                 ?
                                 this.state.uri
-                                    ? <Text>Please accept or Reject the Preview Image</Text>
+                                    ? <Text style={styles.error}>Please accept or Reject the Preview Image</Text>
                                     : <Text>Please add an Image of Voucher</Text>
                                 : null
 
@@ -343,9 +343,44 @@ const styles = StyleSheet.create({
     image: {
         width: 100 + '%',
         height: 300,
-        backgroundColor: 'red'
     },
     submit: {
         bottom: 0
+    },
+    useThis:{
+        width: 45 + '%',
+        borderWidth: 1,
+        borderColor: 'green',
+        backgroundColor: 'green',
+        paddingVertical: 3,
+        paddingHorizontal: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 4,
+        marginRight: 15
+    },
+    takeAnother:{
+        width: 45 + '%',
+        alignSelf: 'flex-end',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: 'green',
+        paddingVertical: 3,
+        paddingHorizontal: 10,
+        borderRadius: 4,
+        marginLeft: 15,
+    },
+    imageApproved: {
+        alignSelf: 'stretch',
+        marginTop: 3,
+        position: 'absolute',
+        top: 10,
+        right: 10
+    },
+    error:{
+        color: 'red', 
+        fontSize: 12
     }
 });
