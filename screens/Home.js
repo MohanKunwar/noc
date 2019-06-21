@@ -67,7 +67,7 @@ export default class Home extends React.Component {
         }
     }
     render() {
-        const { dealer, currReq, countdown, history } = this.state
+        const { dealer, currReq, countdown, history, loginRequired } = this.state
         console.log('countdown', countdown)
         return (
                 <React.Fragment>
@@ -101,7 +101,7 @@ export default class Home extends React.Component {
                         }
 
                         {
-                            !this.state.loginRequired
+                            !loginRequired
                                 ?
                                 <ScrollView>
                                     <View style={{paddingHorizontal: 15}}>
@@ -157,11 +157,11 @@ export default class Home extends React.Component {
                                         history
                                             ?
                                             <History history={history} />
-                                            : <Text>loading</Text>
+                                            : <SectionLoader loading={!history} />
                                     }
                                     </View>
                                 </ScrollView>
-                                : <SectionLoader loading={this.state.loginRequired} />
+                                : <SectionLoader loading={loginRequired} />
                         }
                     </View>
                 </React.Fragment>
