@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CameraRoll, KeyboardAvoidingView, ScrollView, View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native'
+import { CameraRoll, KeyboardAvoidingView, ScrollView, View, Text, StyleSheet, TouchableOpacity, ImageBackground, Image } from 'react-native'
 import { HeaderBackButton, Header } from 'react-navigation'
 import DatePicker from 'react-native-datepicker'
 import { TextField, CustomPicker, ButtonField } from '../views'

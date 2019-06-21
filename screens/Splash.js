@@ -1,27 +1,55 @@
-import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import R from '../resources';
+import React, { Component } from 'react'
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import R from '../resources'
 import SharedPrefs from '../helpers/SharedPrefs'
-import Axios from '../Axios';
-  ;
+import { Fonts } from '../helpers/Fonts'
+import { SectionLoader } from '../views'
+import Pushbots from 'pushbots-react-native'
 
-export default class SplashComponent extends Component {
-  static navigationOptions = ({navigation}) => ({
+Pushbots.registerForRemoteNotifications()
+
+export default class Splash extends Component {
+  static navigationOptions = ({ navigation }) => ({
     headerStyle: { marginTop: -60 }
   })
   state = {
-    loading: undefined
+    loading: false
+  }
+  componentWillMount() {
+    Pushbots.addEventListener('received', this.onReceived)
+    Pushbots.addEventListener('opened', this.onOpened)
+  }
+
+  componentWillUnmount() {
+    console.log('splash unmounted')
+    Pushbots.removeEventListener('received', this.onReceived)
+    Pushbots.removeEventListener('opened', this.onOpened)
+  }
+
+  onReceived = notification => {
+    console.log('received')
+    this.setState({ notification: true }, () => {
+      this.props.navigation.navigate('Notifications', { notification: notification })
+    })
+  }
+
+  onOpened = notification => {
+    this.setState({ notification: true }, () => {
+      this.props.navigation.replace('Notifications', { notification: notification })
+    })
   }
   async componentDidMount() {
-    const dealer = await SharedPrefs.retrieveData('dealer')
-    if (dealer) {
-      setTimeout(() => {
-        this.setState({ loading: true })
-        this.props.navigation.navigate('Home')
-      }, 500)
-    } else {
-      this.setState({ loading: false })
+    if (!this.state.notification) {
+      this.setState({ loading: true })
+      const dealer = await SharedPrefs.retrieveData('dealer')
+      if (dealer) {
+        setTimeout(() => {
+          this.setState({ loading: false })
+          this.props.navigation.replace('Home')
+        }, 500)
+      } else {
+        this.setState({ loading: false })
+      }
     }
 
   }
@@ -30,122 +58,32 @@ export default class SplashComponent extends Component {
     return (
       <View style={styles.container} >
         <Image
-          style={{ width: 150, height: 220, marginTop: 20 }}
+          style={{ width: 165, height: 240 }}
           source={R.images.logo}
         />
-        <Text>NEPAL OIL CORPORATION LIMITED</Text>
-        <TouchableOpacity style={styles.buttonLogin}
-          onPress={() =>
-            this.props.navigation.navigate('Login')
-          }>
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>
-            LOGIN
+        <Text style={styles.TitleText}>NEPAL OIL CORPORATION LIMITED</Text>
+        {
+          !this.state.loading
+            ?
+            <View style={styles.homeButton}>
+              <TouchableOpacity style={styles.buttonLogin}
+                onPress={() =>
+                  this.props.navigation.replace('Login')
+                }>
+                <Text style={[styles.buttonText, { color: '#fff' }]}>
+                  Log In
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.replace('ContinueRegister')}
-        >
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>
-            REGISTER
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.buttonRegister}
+                onPress={() => this.props.navigation.replace('Register')}
+              >
+                <Text style={[styles.buttonText, { color: '#01A7DB' }]}>
+                  Register
           </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.navigate('Form')}
-        >
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>
-            Form
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.navigate('Demand')}
-        >
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>
-            DEMAND
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.navigate('Home')}
-        >
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>
-            HOME
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.navigate('Register')}
-        >
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>
-            register 1
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.navigate('ConfirmCode')}
-        >
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>
-            CONFIRM CODE
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.navigate('VoucherSubmitted')}
-        >
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>
-            Voucher submitted
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.navigate('SubmitVoucher')}
-        >
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>
-            Voucher submit
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.navigate('Notifications')}
-        >
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>
-            Notifications
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.navigate('History')}
-        >
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>
-            history
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.navigate('Status')}
-        >
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>
-            Status
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.navigate('ForgotPassword')}
-        >
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>Forgot Password
-  </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.navigate('ResetPassword')}
-        >
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>
-            Reset Password
-  </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonRegister}
-          onPress={() => this.props.navigation.navigate('Test')}
-        >
-          <Text style={{ color: R.colors.white, fontSize: 15 }}>
-            Test
-  </Text>
-        </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
+            : <SectionLoader loading={this.state.loading} />
+        }
       </View>
 
     )
@@ -154,20 +92,53 @@ export default class SplashComponent extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    // height: 100 + '%',
+    height: 100 + '%',
     flex: 1,
-    backgroundColor: R.colors.darkblue,
-    // justifyContent: 'center',
+    backgroundColor: '#01A7DB',
+    justifyContent: 'center',
     alignItems: 'center',
     width: 100 + '%',
   },
-  buttonRegister: {
-
+  homeButton: {
+    flexDirection: 'row',
+    top: 70,
+    paddingHorizontal: 20,
+    position: 'relative',
+    bottom: 20
   },
   buttonLogin: {
-
+    width: 45 + '%',
+    borderColor: '#fff',
+    borderWidth: 2,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    marginRight: 10
+  },
+  buttonRegister: {
+    width: 45 + '%',
+    borderColor: '#fff',
+    borderWidth: 2,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    backgroundColor: '#fff',
+    marginLeft: 10
+  },
+  TitleText: {
+    color: '#fff',
+    fontSize: 18,
+    paddingVertical: 10,
+    fontWeight: '700',
+    fontFamily: Fonts.font,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontFamily: Fonts.font,
   }
-});
+})
 
 
 
