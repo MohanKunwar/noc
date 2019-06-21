@@ -16,6 +16,7 @@ const API = {
         update: 'demand/update',
         today: 'demand/today',
         report: duration => { return duration ? `demand/report?report=${duration}` : 'demand/report'},
+        excelFile: 'demand/export_excel'
     },
     static: {
         formData: 'dealer/form'

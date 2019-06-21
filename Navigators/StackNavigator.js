@@ -4,7 +4,7 @@ import Splash from '../screens/Splash2';
 import Demand from '../screens/Demand';
 import Register from '../screens/Auth/Register/Register1';
 import ContinueRegister from '../screens/Auth/Register/Register2'
-import SubmitVoucher from '../screens/SubmitVoucher'
+import SubmitVoucher1 from '../screens/SubmitVoucher1'
 import VoucherSubmitted from '../screens/VoucherSubmitted'
 import Notifications from '../screens/Notifications'
 import Status from '../screens/Status'
@@ -28,7 +28,7 @@ export default Stack = createStackNavigator(
         ForgotPassword: ForgotPassword,
         ResetPassword: ResetPassword,
         Demand: Demand,
-        SubmitVoucher: SubmitVoucher,
+        SubmitVoucher: SubmitVoucher1,
         ConfirmCode: ConfirmCode,
         VoucherSubmitted: VoucherSubmitted,
         Notifications: Notifications,

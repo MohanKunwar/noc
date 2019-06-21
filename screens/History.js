@@ -1,18 +1,21 @@
 import React, { Component } from 'react'
-import { View, ScrollView, StyleSheet, Image, Text } from 'react-native'
+import { View, ScrollView, StyleSheet, Image, Text, PermissionsAndroid } from 'react-native'
 import { HeaderBackButton } from 'react-navigation'
 
 import History from '../components/History'
 import R from '../resources'
 import Axios from '../Axios';
-import { Fonts } from '../helpers/Fonts';
 import { SectionLoader } from '../views';
+import { Fonts } from '../helpers/Fonts'
+import moment from 'moment'
+import RNFetchBlob from 'rn-fetch-blob'
 export default class HistoryTabs extends Component {
     static navigationOptions = ({ navigation }) => ({
         headerTitle: 'History',
         headerStyle: { backgroundColor: '#fff' },
         headerTitleStyle: {
-            flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', fontFamily: Fonts.font, marginLeft: -30},
+            flex: 1, textAlign: "center", color: '#01A7DB', fontSize: 19, fontWeight: '700', fontFamily: Fonts.font, marginLeft: -30
+        },
         headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
     })
     state = {
@@ -26,6 +29,81 @@ export default class HistoryTabs extends Component {
         this.setState({ loading: true })
         this.getHistory('week')
     }
+    downloadFile = async () => {
+
+        // Axios.authInstance.get(Axios.API.demand.excelFile, { 'responseType': 'blob' }).then(response => {
+        //     if (response.data.errorMsg === 'Invalid Token.') {
+        //         this.props.navigation.replace('Login')
+        //     } else if (response) {
+        //         console.log('res', response.data)
+        //         // const url = URL.createObjectURL(response.data)
+        //         // console.log(url, 'url')
+        //         const blob = new Blob([response.data], {
+        //             type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        //         })
+        //         var reader = new FileReader()
+        //         reader.readAsDataURL(blob)
+        //         reader.onloadend = () => {
+        //             base64data = reader.result
+        //             var path = RNFS.DocumentDirectoryPath + `/noc_history_${moment(new Date()).format('MM-DD-YYYY')}`;
+
+        //             // write the file
+        //             RNFS.writeFile(path, base64data, 'base64')
+        //                 .then((success) => {
+        //                     console.log('FILE WRITTEN!');
+        //                 })
+        //                 .catch((err) => {
+        //                     console.log(err.message);
+        //                 });
+        //         }
+
+        const permission = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            {
+                title: 'Permission to save file',
+                message: 'permission to save file',
+                buttonNeutral: 'Ask Me Later',
+                buttonNegative: 'Cancel',
+                buttonPositive: 'OK',
+            }
+        )
+
+        if (permission === PermissionsAndroid.RESULTS.GRANTED) {
+            const accesstoken = await SharedPrefs.retrieveData('accesstoken')
+            const refreshtoken = await SharedPrefs.retrieveData('refreshtoken')
+            const { config, fs } = RNFetchBlob
+            let DownloadDir = fs.dirs.DownloadDir // this is the Downloads directory.
+            let options = {
+                fileCache: true,
+                // appendExt : extension, //Adds Extension only during the download, optional
+                addAndroidDownloads: {
+                    useDownloadManager: true, //uses the device's native download manager.
+                    notification: true,
+                    // mime: 'text/plain',
+                    title: "Demand History", // Title of download notification.
+                    path: DownloadDir + `/history_${moment(new Date()).format('MM_DD_YYYY')}` + '.xlsx', // this is the path where your download file will be in
+                    description: 'Downloading file.'
+                }
+            }
+            console.log('abc')
+            config(options)
+                .fetch('GET', `http://noc.khoz.com.np/${Axios.API.demand.excelFile}`, {
+                    'accesstoken': accesstoken,
+                    'refreshtoken': refreshtoken,
+                }, {
+                        'responseType': 'blob'
+                    })
+                .then((res) => {
+                    console.log("Success", res);
+                })
+                .catch((err) => { console.log('error', err) }) // To execute when download cancelled and other errors
+
+        }
+
+        //     }
+        // })
+    }
+
     getHistory(duration) {
         // this.setState({color: '#000'})
         if (this.state[duration]) {
@@ -35,11 +113,11 @@ export default class HistoryTabs extends Component {
                 if (response.data.errorMsg === 'Invalid Token.') {
                     this.props.navigation.replace('Login')
                 } else if (response.data)
-                this.setState({
-                    history: response.data.length > 0 ? response.data : null,
-                    [duration]: response.data.length > 0 ? response.data : null,
-                    loading: false
-                })
+                    this.setState({
+                        history: response.data.length > 0 ? response.data : null,
+                        [duration]: response.data.length > 0 ? response.data : null,
+                        loading: false
+                    })
             })
         }
     }
@@ -74,7 +152,7 @@ export default class HistoryTabs extends Component {
                             : <SectionLoader loading={this.state.loading} />
                     }
                     <View style={styles.pdfContainer}>
-                        <Text style={styles.pdfText}>Export your demand history in Excel </Text>
+                        <Text style={styles.pdfText} onPress={this.downloadFile}>Export your demand history in Excel </Text>
                         <Image style={styles.image} source={R.images.approved} />
                     </View>
                     </View>

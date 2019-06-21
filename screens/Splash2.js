@@ -18,9 +18,9 @@ export default class Splash extends Component {
     const dealer = await SharedPrefs.retrieveData('dealer')
     if (dealer) {
       setTimeout(() => {
-        this.setState({ loading: false })
         this.props.navigation.navigate('Home')
-      }, 2000)
+        this.setState({ loading: false })
+      }, 500)
     } else {
       this.setState({ loading: false })
     }
