@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CameraRoll, KeyboardAvoidingView, ScrollView, View, Text, StyleSheet, TouchableOpacity, ImageBackground, Image } from 'react-native'
+import { CameraRoll, KeyboardAvoidingView, ScrollView, View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native'
 import { HeaderBackButton, Header } from 'react-navigation'
 import DatePicker from 'react-native-datepicker'
 import { TextField, CustomPicker, ButtonField } from '../views'
@@ -48,6 +48,17 @@ export default class SubmitVoucher extends Component {
     }
     componentWillMount() {
         const request = this.props.navigation.getParam('request')
+        const voucher = this.props.navigation.getParam('voucher')
+        if (voucher) {
+            this.setState({
+                edit: true,
+                vouchernum: voucher.voucherno,
+                amount: voucher.amount,
+                voucherdate: voucher.date,
+                bank: voucher.bank,
+                voucherimageedit: voucher.image,
+            })
+        }
         let totalText = ''
         let totalAmount = 0
         if (request) {
@@ -125,151 +136,169 @@ export default class SubmitVoucher extends Component {
                 keyboardVerticalOffset={Header.HEIGHT + 20}>
                 <ScrollView>
                     <View style={styles.container}>
-                    <View style={styles.ratesContainer}>
-                        {
-                            this.state.demand
-                                ?
-                                this.state.demand.map((demand, index) =>
-                                    <View key={index} style={[styles.rateTypes, this.state.demand.length > 1 && index === 0 ? { borderRightWidth: 1, borderColor: '#ababab' } : null]}>
-                                        <Text style={styles.label}>{demand.fueltype} Rate</Text>
-                                        <Text>NPR.<Text style={{color: '#000', fontWeight: '500'}}> {demand.totalrate / demand.approvedunit}/L</Text></Text>
-                                    </View>
-                                )
-                                : null
-                        }
-                    </View>
-                    <Text>You need total of {this.state.totalText} to make this purchase</Text>
-                    <View style={styles.formContainer}>
-                        <Text style={styles.label}>Voucher Number</Text>
-                        <TextField
-                            keyboardType="number-pad"
-                            value={this.state.vouchernum}
-                            onChangeText={value =>
-                                this.setState({
-                                    vouchernum: value.trim(),
-                                    errVouchernum: value ? null : 'Required'
-                                })
-                            }
-                            error={this.state.errVouchernum} />
-
-                        <Text style={styles.label}>Amount (in NRs.)</Text>
-                        <TextField
-                            value={this.state.amount}
-                            keyboardType='number-pad'
-                            onChangeText={value =>
-                                this.setState({
-                                    amount: value.trim(),
-                                    errAmount: value ? null : 'Required'
-                                })
-                            }
-                            error={this.state.errAmount} />
-                        <Text>Today's Date: {moment(new Date()).format('MM/DD/YYYY')}</Text>
-                        <Text style={styles.label}>Voucher Date</Text>
-                        {/* todo date field  verify validations*/}
-                        <DatePicker
-                            style={{ width: 100 + '%', marginBottom: 15 }}
-                            date={this.state.voucherdate}
-                            mode="date"
-                            placeholder="Select Date"
-                            format="YYYY-MM-DD"
-                            maxDate={new Date()}
-                            confirmBtnText="Confirm"
-                            cancelBtnText="Cancel"
-                            customStyles={{
-                                dateIcon: {
-                                    position: 'absolute',
-                                    left: 0,
-                                    top: 3,
-                                    marginLeft: 0
-                                },
-                                dateInput: {
-                                    borderColor: '#fff',
-                                    borderBottomColor: '#ababab',
-                                    borderBottomWidth: 1
-                                }
-                            }}
-                            onDateChange={(date) => { this.setState({ voucherdate: date }) }}
-                        />
-                        {
-                            this.state.errVoucherdate
-                                ? <Text style={styles.error}>{this.state.errVoucherdate}</Text>
-                                : null
-                        }
-                        {
-                            this.state.bankOptions
-                                ?
-                                <React.Fragment>
-                                    <Text style={styles.label}>Bank Name</Text>
-                                    <CustomPicker
-                                        placeholder={'Select a Bank'}
-                                        options={this.state.bankOptions}
-                                        getLabel={item => item.name}
-                                        onValueChange={value => this.setState({ bank: value.name })}
-                                    />
-                                    {
-                                        this.state.errBank
-                                            ?
-                                            <Text>{this.state.errorBank}</Text>
-                                            : null
-                                    }
-                                </React.Fragment>
-                                : <Text>Failed to load bank list, please reload</Text>
-                        }
-                        {
-                            this.state.errBank
-                                ? <Text style={styles.error}>Please select a bank</Text>
-                                : null
-                        }
-                        {
-                            this.state.openCamera
-                                ?
-                                <TakePicutre
-                                    imageFile={this.imageFile}
-                                    style={styles.OpenCamera}
-                                    cancel={this.cancel} />
-                                :
-                                this.state.uri
+                        <View style={styles.ratesContainer}>
+                            {
+                                this.state.demand
                                     ?
-                                    <View style= {{position: 'relative'}}>
-                                        <ImageBackground style={styles.image} source={{ uri: this.state.uri }} />
+                                    this.state.demand.map((demand, index) =>
+                                        <View key={index} style={[styles.rateTypes, this.state.demand.length > 1 && index === 0 ? { borderRightWidth: 1, borderColor: '#ababab' } : null]}>
+                                            <Text style={styles.label}>{demand.fueltype} Rate</Text>
+                                        <Text>NPR.<Text style={{color: '#000', fontWeight: '500'}}> {demand.totalrate / demand.approvedunit}/L</Text></Text>
+                                        </View>
+                                    )
+                                    : null
+                            }
+                        </View>
+                        <Text>You need total of {this.state.totalText} to make this purchase</Text>
+                        <View style={styles.formContainer}>
+                            <Text style={styles.label}>Voucher Number</Text>
+                            <TextField
+                                keyboardType="number-pad"
+                                value={this.state.vouchernum}
+                                onChangeText={value =>
+                                    this.setState({
+                                        vouchernum: value.trim(),
+                                        errVouchernum: value ? null : 'Required'
+                                    })
+                                }
+                                error={this.state.errVouchernum} />
 
+                            <Text style={styles.label}>Amount (in NRs.)</Text>
+                            <TextField
+                                value={this.state.amount}
+                                keyboardType='number-pad'
+                                onChangeText={value =>
+                                    this.setState({
+                                        amount: value.trim(),
+                                        errAmount: value ? null : 'Required'
+                                    })
+                                }
+                                error={this.state.errAmount} />
+                            <Text>Today's Date: {moment(new Date()).format('MM/DD/YYYY')}</Text>
+                            <Text style={styles.label}>Voucher Date</Text>
+                            {/* todo date field  verify validations*/}
+                            <DatePicker
+                                style={{ width: 100 + '%', marginBottom: 15 }}
+                                date={this.state.voucherdate}
+                                mode="date"
+                                placeholder="Select Date"
+                                format="YYYY-MM-DD"
+                                maxDate={new Date()}
+                                confirmBtnText="Confirm"
+                                cancelBtnText="Cancel"
+                                customStyles={{
+                                    dateIcon: {
+                                        position: 'absolute',
+                                        left: 0,
+                                        top: 3,
+                                        marginLeft: 0
+                                    },
+                                    dateInput: {
+                                        borderColor: '#fff',
+                                        borderBottomColor: '#ababab',
+                                        borderBottomWidth: 1
+                                    }
+                                }}
+                                onDateChange={(date) => { this.setState({ voucherdate: date }) }}
+                            />
+                            {
+                                this.state.errVoucherdate
+                                ? <Text style={styles.error}>{this.state.errVoucherdate}</Text>
+                                    : null
+                            }
+                            {
+                                this.state.bankOptions
+                                    ?
+                                    <React.Fragment>
+                                        <Text style={styles.label}>Bank Name</Text>
+                                        <CustomPicker
+                                            defaultValue={this.state.bankOptions.find(bank => bank.name === this.state.bank)}
+                                            placeholder={'Select a Bank'}
+                                            options={this.state.bankOptions}
+                                            getLabel={item => item.name}
+                                            onValueChange={value => this.setState({ bank: value.name })}
+                                        />
                                         {
-                                            !this.state.voucherimage
+                                            this.state.errBank
                                                 ?
+                                                <Text>{this.state.errorBank}</Text>
+                                                : null
+                                        }
+                                    </React.Fragment>
+                                    : <Text>Failed to load bank list, please reload</Text>
+                            }
+                            {
+                                this.state.errBank
+                                ? <Text style={styles.error}>Please select a bank</Text>
+                                    : null
+                            }
+                            {
+                                this.state.openCamera
+                                    ?
+                                    <TakePicutre
+                                        imageFile={this.imageFile}
+                                        style={styles.OpenCamera}
+                                        cancel={this.cancel} />
+                                    :
+                                    this.state.uri
+                                        ?
+                                    <View style= {{position: 'relative'}}>
+                                            <ImageBackground style={styles.image} source={{ uri: this.state.uri }} />
+
+                                            {
+                                                !this.state.voucherimage
+                                                    ?
                                                 <View style={{flexDirection: 'row', marginTop: 10, flex: 1, justifyContent: 'space-around',}}>
-                                                    <TouchableOpacity onPress={() => this.setState({ voucherimage: this.state.base64, errVoucherimage: null })} style={styles.useThis}>
+                                                <TouchableOpacity onPress={() => this.setState({ voucherimage: this.state.base64, errVoucherimage: null })} style={styles.useThis}>
                                                         <Text style={{ fontSize: 14, color: '#fff', fontWeight: '500'}}> Use this </Text>
                                                     </TouchableOpacity>
                                                     <TouchableOpacity onPress={() => this.setState({ openCamera: true })} style={styles.takeAnother}>
                                                         <Text style={{ fontSize: 14, color: 'green', fontWeight: '500' }}> Take another </Text>
                                                     </TouchableOpacity>
-                                                </View>
+                                                        {
+                                                            this.state.edit
+                                                            ?
+                                                            <TouchableOpacity onPress={() => this.setState({ uri: null, errVoucherimage: null })} >
+                                                            <Text style={{ fontSize: 14 }}>Restore Original</Text>
+                                                        </TouchableOpacity>
+                                                        :null
+                                                        }
+
+                                                    </View>
                                                 : <Image style={styles.imageApproved} source={R.images.approved} />
-                                        }
-                                    </View>
-                                    :
-                                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-                                        <TouchableOpacity onPress={() => this.setState({ openCamera: true, image: null })} style={styles.capture}>
-                                        <Icon style={styles.icon}
-                                                name={'camera'}
-                                                size={40}
-                                                color={'#545556'}
-                                            />
-                                        </TouchableOpacity>
-                                    </View>
-                        }
-                        {
-                            this.state.errVoucherimage
-                                ?
-                                this.state.uri
+                                            }
+                                        </View>
+                                        :
+                                        <React.Fragment>
+                                            {
+                                                this.state.voucherimageedit 
+                                                    ?
+                                                    <ImageBackground source={{ uri: `http://noc.khoz.com.np/assets/uploads/voucher/${this.state.voucherimageedit}` }} style={{ width: 200, height: 200 }} />
+                                                    : null
+                                            }
+                                            <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+                                                <TouchableOpacity onPress={() => this.setState({ openCamera: true, voucherimage: null })} style={styles.capture}>
+                                                    <Icon style={styles.icon}
+                                                        name={'camera'}
+                                                        size={40}
+                                                        color={'#545556'}
+                                                    />
+                                                </TouchableOpacity>
+                                            </View>
+                                        </React.Fragment>
+                            }
+                            {
+                                this.state.errVoucherimage
+                                    ?
+                                    this.state.uri
                                     ? <Text style={styles.error}>Please accept or Reject the Preview Image</Text>
                                     : <Text style={styles.error}>Please add an Image of Voucher</Text>
                                 : null
 
-                        }
-                    </View>
-                    <ButtonField labelText={'Submit'} onPress={this.onSubmit.bind(this)} />
-                    {/* <TouchableOpacity >
+                            }
+                        </View>
+                        <ButtonField labelText={'Submit'} onPress={this.onSubmit.bind(this)} />
+                        {/* <TouchableOpacity >
                         <Text style={{ fontSize: 14 }} onPress={this.onSubmit} style={styles.submit}> Submit </Text>
                     </TouchableOpacity> */}
                     </View>
