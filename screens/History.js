@@ -18,6 +18,7 @@ export default class HistoryTabs extends Component {
         },
         headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
     })
+
     state = {
         week: null,
         twoweek: null,
@@ -25,38 +26,13 @@ export default class HistoryTabs extends Component {
         history: null,
         btnSelected: 1
     }
+
     componentWillMount() {
         this.setState({ loading: true })
         this.getHistory('week')
     }
+
     downloadFile = async () => {
-
-        // Axios.authInstance.get(Axios.API.demand.excelFile, { 'responseType': 'blob' }).then(response => {
-        //     if (response.data.errorMsg === 'Invalid Token.') {
-        //         this.props.navigation.replace('Login')
-        //     } else if (response) {
-        //         console.log('res', response.data)
-        //         // const url = URL.createObjectURL(response.data)
-        //         // console.log(url, 'url')
-        //         const blob = new Blob([response.data], {
-        //             type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        //         })
-        //         var reader = new FileReader()
-        //         reader.readAsDataURL(blob)
-        //         reader.onloadend = () => {
-        //             base64data = reader.result
-        //             var path = RNFS.DocumentDirectoryPath + `/noc_history_${moment(new Date()).format('MM-DD-YYYY')}`;
-
-        //             // write the file
-        //             RNFS.writeFile(path, base64data, 'base64')
-        //                 .then((success) => {
-        //                     console.log('FILE WRITTEN!');
-        //                 })
-        //                 .catch((err) => {
-        //                     console.log(err.message);
-        //                 });
-        //         }
-
         const permission = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
             {
@@ -67,7 +43,6 @@ export default class HistoryTabs extends Component {
                 buttonPositive: 'OK',
             }
         )
-
         if (permission === PermissionsAndroid.RESULTS.GRANTED) {
             const accesstoken = await SharedPrefs.retrieveData('accesstoken')
             const refreshtoken = await SharedPrefs.retrieveData('refreshtoken')
@@ -87,11 +62,10 @@ export default class HistoryTabs extends Component {
             }
             console.log('abc')
             config(options)
-                .fetch('GET', `http://noc.khoz.com.np/${Axios.API.demand.excelFile}`, {
-                    'accesstoken': accesstoken,
-                    'refreshtoken': refreshtoken,
-                }, {
-                        'responseType': 'blob'
+                .fetch('GET', `http://noc.khoz.com.np/api/${Axios.API.demand.excelFile}`, {
+                    'accesstoken': `${accesstoken}`,
+                    'refreshtoken': `${refreshtoken}`,
+                    'responseType': 'blob'
                     })
                 .then((res) => {
                     console.log("Success", res);
