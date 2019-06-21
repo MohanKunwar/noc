@@ -27,7 +27,10 @@ export default class Request extends Component {
                 this.setState({ [item.fueltype]: item.demandunit > 0 ? parseInt(item.demandunit) : '0' })
             }, () => console.log('request', this.state))
         }
-        this.setState({ buttonText: request.demand && request.demand.length === 0 ? 'Create' : request.status === 'Pending' ? 'Edit' : 'Details' })
+        this.setState({ 
+            buttonText: request.demand && request.demand.length === 0 
+            ? 'Create' : request.status === 'Pending' && countdown ? 'Edit' : 'Details' 
+        })
     }
     async componentDidMount() {
         const dealer = await SharedPrefs.retrieveData('dealer')

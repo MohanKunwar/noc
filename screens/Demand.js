@@ -101,7 +101,7 @@ export default class Demand extends Component {
             if (response.data.errorMsg === 'Invalid Token.') {
               this.props.navigation.replace('Login')
             } else if (response.data && response.data.status === 200) {
-              this.props.navigation.replace('VoucherSubmitted', { origin: 'editdemand' })
+              this.props.navigation.replace('VoucherSubmitted', { origin: 'demand' })
             } else {
               // todo something went wrong
             }
