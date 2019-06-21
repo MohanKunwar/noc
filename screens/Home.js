@@ -18,8 +18,6 @@ export default class Home extends React.Component {
     }
     componentWillMount() {
         this.getValues()
-
-        console.log('abc')
         Axios.instance.get(Axios.API.demand.time).then(response => {
             let currTime = moment(response.data.currenttime, 'HH:mm:ss')
             let deadline = moment(response.data.deadline, 'HH:mm:ss')
@@ -70,6 +68,7 @@ export default class Home extends React.Component {
     }
     render() {
         const { dealer, currReq, countdown, history } = this.state
+        console.log('countdown', countdown)
         return (
                 <React.Fragment>
                     {/* <ActivityIndicator animating={!dealer || !currReq } /> */}
@@ -109,14 +108,21 @@ export default class Home extends React.Component {
                                     {
                                         currReq != undefined
                                             ?
-                                            <Request navigation={this.props.navigation} request={currReq} />
+                                            <Request navigation={this.props.navigation} request={currReq} countdown={countdown} />
                                             : null
                                     }
                                     {
-                                        currReq.status === 'Pending'
+                                        currReq && currReq.status === 'Pending'
                                             ?
                                             <Text style={{fontFamily: Fonts.font,}}>*You will be notified once your request is approved</Text>
                                             :
+                                            currReq && currReq.status === 'Approved'
+                                            ?
+                                            <Text style={{fontFamily: Fonts.font}}>
+                                            Goto Details to view approved units and submit voucher</Text>
+                                            : null
+                                    }
+                                            {
                                             countdown != undefined
                                                 ?
                                                 countdown
@@ -128,7 +134,7 @@ export default class Home extends React.Component {
                                                             fontSize: 12,
                                                             paddingTop: 20,
                                                             fontFamily: Fonts.font
-                                                        }}>Time remaining to make demand</Text>
+                                                        }}>Time remaining to {currReq && currReq.status === 'Pending' ? 'edit' : 'make'} demand</Text>
                                                         <CountDown
                                                             until={this.state.countdown / 1000}
                                                             timeToShow={['H', 'M', 'S']}

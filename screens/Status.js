@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
 import { HeaderBackButton } from 'react-navigation'
 import { ButtonField, SectionLoader } from '../views';
-import R from '../resources';
+import VoucherView from '../components/VoucherView'
 import Axios from '../Axios';
 import Request from '../components/Request'
 import ApprovedRequest from '../components/ApprovedRequest'
 import { Fonts } from '../helpers/Fonts';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Status extends Component {
 
@@ -42,26 +43,28 @@ export default class Status extends Component {
                 ?
                 request
                     ?
-                    <View style={styles.container}>
-                        {
-                            request.status === 'Approved'
-                                ?
-                                <React.Fragment>
-                                    <ApprovedRequest demand={request.demand} />
-                                    {/* {
-                                        request.vouchers
-                                        ?
-                                        request.vouchers.map((voucher, index) =>
-                                            <VoucherView voucher={voucher} key={index} navigation={this.props.navigation} />
-                                        )
-                                        : null
-                                    } */}
-                                    <ButtonField labelText={'Submit Voucher'} onPress={() => this.props.navigation.navigate('SubmitVoucher', { request: request })} />
-                                </React.Fragment>
-                                :
-                                <Request request={request} navigation={this.props.navigation} origin={'Status'} />
-                        }
-                    </View>
+                    <ScrollView>
+                        <View style={styles.container}>
+                            {
+                                request.status === 'Approved'
+                                    ?
+                                    <React.Fragment>
+                                        <ApprovedRequest demand={request.demand} />
+                                        {
+                                            request.vouchers
+                                                ?
+                                                request.vouchers.map((voucher, index) =>
+                                                    <VoucherView voucher={voucher} key={index} navigation={this.props.navigation} request={request} />
+                                                )
+                                                : null
+                                        }
+                                        <ButtonField labelText={'Submit Voucher'} onPress={() => this.props.navigation.navigate('SubmitVoucher', { request: request })} />
+                                    </React.Fragment>
+                                    :
+                                    <Request request={request} navigation={this.props.navigation} origin={'Status'} />
+                            }
+                        </View>
+                    </ScrollView>
                     :
                     <View>
                         <Text>No demand </Text>

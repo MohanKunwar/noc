@@ -11,13 +11,15 @@ export default class Request extends Component {
         SKO: undefined
     }
     componentWillMount() {
-        const { request } = this.props
+        const { request, countdown } = this.props
         if (request.considereddate) {
             let consideredDate = moment(request.considereddate, 'YYYY-MM-DD')
             const today = moment(moment(new Date()).format('YYYY-MM-DD'))
             if (today.diff(consideredDate, 'day') === 0) {
                 this.setState({ today: true })
             }
+        } else {
+            this.setState({today: countdown ? true : false })
         }
         if (request.demand && request.demand.length > 0) {
             request.demand.map(item => {

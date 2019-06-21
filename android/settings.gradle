@@ -1,4 +1,6 @@
 rootProject.name = 'NOC'
+include ':rn-fetch-blob'
+project(':rn-fetch-blob').projectDir = new File(rootProject.projectDir, '../node_modules/rn-fetch-blob/android')
 include ':pushbots-react-native'
 project(':pushbots-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/pushbots-react-native/android')
 include ':react-native-vector-icons'
