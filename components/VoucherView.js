@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
 import { ButtonField } from '../views';
+import { Fonts } from '../helpers/Fonts';
+
 export default class VoucherView extends React.Component {
 
     render() {
@@ -8,8 +10,8 @@ export default class VoucherView extends React.Component {
         console.log(voucher)
         return (
             <View style={styles.card}>
-                <Text>Voucher Number: {voucher.voucherno}</Text>
-                <Text>Amount: {voucher.amount}</Text>
+                <Text>Voucher Number : <Text style={{color: '#000'}}>{voucher.voucherno}</Text></Text>
+                <Text style={{paddingBottom: 5}}>Amount : <Text style={{fontFamily: Fonts.fontDigit, color: '#000'}}>{voucher.amount}</Text></Text>
                 <Image style={{width: 200, height: 200}} source={{uri: `http://noc.khoz.com.np/assets/uploads/voucher/${voucher.image}`}} />
                 <ButtonField labelText={'Edit'} onPress={() => navigation.navigate('SubmitVoucher', {voucher: voucher, request: request})} />
             </View>

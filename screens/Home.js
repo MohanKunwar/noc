@@ -118,7 +118,7 @@ export default class Home extends React.Component {
                                             :
                                             currReq && currReq.status === 'Approved'
                                             ?
-                                            <Text style={{fontFamily: Fonts.font}}>
+                                            <Text style={{fontFamily: Fonts.font, color: 'green', paddingTop: 3, fontSize: 12}}>
                                             Goto Details to view approved units and submit voucher</Text>
                                             : null
                                     }

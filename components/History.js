@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
     requestContaner: {
         borderWidth: 1,
         borderColor: 'rgba(171, 171, 171, 0.5)',
-        padding: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         borderRadius: 5,
         // flexDirection: 'row' ,
         flex: 1,
@@ -70,8 +71,13 @@ const styles = StyleSheet.create({
         width: 50 + '%'
     },
     date: {
-        fontSize: 12,
+        fontSize: 11,
         opacity: .7,
+        borderBottomWidth: 1,
+        borderColor: '#dedede',
+        paddingBottom: 2,
+        width: 80,
+        marginBottom: 5,
     },
     label: {
         fontSize: 14,

@@ -144,6 +144,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-fs')
     implementation project(':rn-fetch-blob')
     implementation project(':pushbots-react-native')
     implementation project(':react-native-vector-icons')
