@@ -130,8 +130,7 @@ const styles = StyleSheet.create({
     },
     quantity: {
         fontSize: 18,
-        fontWeight: '700',
-        fontFamily: Fonts.font,
+        fontFamily: Fonts.fontDigit,
         color: '#000',
     },
 })

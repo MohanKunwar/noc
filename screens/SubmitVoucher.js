@@ -143,13 +143,13 @@ export default class SubmitVoucher extends Component {
                                     this.state.demand.map((demand, index) =>
                                         <View key={index} style={[styles.rateTypes, this.state.demand.length > 1 && index === 0 ? { borderRightWidth: 1, borderColor: '#ababab' } : null]}>
                                             <Text style={styles.label}>{demand.fueltype} Rate</Text>
-                                        <Text>NPR.<Text style={{color: '#000', fontWeight: '500'}}> {demand.totalrate / demand.approvedunit}/L</Text></Text>
+                                        <Text>NPR.<Text style={{color: '#000', fontFamily: Fonts.fontDigit}}> {demand.totalrate / demand.approvedunit}/L</Text></Text>
                                         </View>
                                     )
                                     : null
                             }
                         </View>
-                        <Text>You need total of {this.state.totalText} to make this purchase</Text>
+                        <Text>You need total of <Text style={{fontFamily: Fonts.fontDigit, color: '#000'}}>{this.state.totalText}</Text> to make this purchase</Text>
                         <View style={styles.formContainer}>
                             <Text style={styles.label}>Voucher Number</Text>
                             <TextField
@@ -292,8 +292,8 @@ export default class SubmitVoucher extends Component {
                                     ?
                                     this.state.uri
                                     ? <Text style={styles.error}>Please accept or Reject the Preview Image</Text>
-                                        : <Text>Please add an Image of Voucher</Text>
-                                    : null
+                                    : <Text style={styles.error}>Please add an Image of Voucher</Text>
+                                : null
 
                             }
                         </View>
